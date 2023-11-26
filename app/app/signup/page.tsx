@@ -5,7 +5,7 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Link from "next/link";
-import { Input, Button } from "@chakra-ui/react";
+import { Input, Button, useToast } from "@chakra-ui/react";
 import Contents from "@/components/auth/contents";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -25,6 +25,7 @@ const Signup = () => {
   const supabase = createClientComponentClient<Database>();
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
+  const toast = useToast();
 
   const {
     register,
@@ -54,7 +55,13 @@ const Signup = () => {
 
       // エラーチェック
       if (errorSignup) {
-        setMessage("エラーが発生しました。" + errorSignup.message);
+        toast({
+          title: "エラーが発生しました。",
+          description: errorSignup.message,
+          status: "error",
+          duration: 10000,
+          isClosable: true,
+        });
         return;
       }
 
@@ -66,17 +73,33 @@ const Signup = () => {
 
       // エラーチェック
       if (updateError) {
-        setMessage("エラーが発生しました。" + updateError.message);
+        toast({
+            title: "エラーが発生しました。",
+            description: updateError.message,
+            status: "error",
+            duration: 10000,
+            isClosable: true,
+          });
         return;
       }
 
       // 入力フォームクリア
       reset();
-      setMessage(
-        "本登録用のURLを記載したメールを送信しました。メールをご確認の上、メール本文中のURLをクリックして、本登録を行ってください。"
-      );
+      toast({
+        title: "メール認証を行なってください",
+        description: "本登録用のURLを記載したメールを送信しました。メールをご確認の上、メール本文中のURLをクリックして、本登録を行ってください。",
+        status: "success",
+        duration: 10000,
+        isClosable: true,
+      });
     } catch (error) {
-      setMessage("エラーが発生しました。" + error);
+      toast({
+        title: "エラーが発生しました。",
+        description: String(error),
+        status: "error",
+        duration: 10000,
+        isClosable: true,
+      });
       return;
     } finally {
       setLoading(false);
