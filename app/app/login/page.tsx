@@ -4,6 +4,7 @@ import { Database } from "@/lib/database.types";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { redirect, useRouter } from "next/navigation";
 import { useState } from "react";
+import Contents from "@/components/auth/contents";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -67,8 +68,8 @@ const Login = () => {
   };
 
   return (
-    <div>
-      <h1>ログイン</h1>
+    <>
+      <h1 className="mb-[20px] text-3xl font-bold tracking-wide">ログイン</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
         <p>
           メールアドレス:
@@ -90,7 +91,7 @@ const Login = () => {
         </div>
         {message && <p>{message}</p>}
       </form>
-    </div>
+    </>
   );
 };
 
