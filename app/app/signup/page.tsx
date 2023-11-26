@@ -24,7 +24,6 @@ const Signup = () => {
   const router = useRouter();
   const supabase = createClientComponentClient<Database>();
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState("");
   const toast = useToast();
 
   const {
@@ -161,7 +160,6 @@ const Signup = () => {
             ログインはこちら
           </Link>
         </div>
-        {message && <p>{message}</p>}
       </form>
     </Contents>
   );
