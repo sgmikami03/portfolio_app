@@ -4,6 +4,8 @@ import { Database } from "@/lib/database.types";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { redirect, useRouter } from "next/navigation";
 import { useState } from "react";
+import Link from "next/link";
+import { Input, Button, useToast } from "@chakra-ui/react";
 import Contents from "@/components/auth/contents";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -21,7 +23,7 @@ const Login = () => {
   const router = useRouter();
   const supabase = createClientComponentClient<Database>();
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState("");
+  const toast = useToast();
 
   const {
     register,
@@ -48,18 +50,34 @@ const Login = () => {
 
       // エラーチェック
       if (errrorLogin) {
-        setMessage("エラーが発生しました。" + errrorLogin.message);
+        toast({
+          title: "エラーが発生しました。",
+          description: errrorLogin.message,
+          status: "error",
+          duration: 10000,
+          isClosable: true,
+        });
         return;
       }
 
       // 入力フォームクリア
       reset();
-      setMessage(
-        "ログインが完了しました。"
-      );
-      redirect("/")
+      toast({
+        title: "ログイン完了",
+        description: "ログインが完了しました",
+        status: "success",
+        duration: 10000,
+        isClosable: true,
+      });
+      redirect("/");
     } catch (error) {
-      setMessage("エラーが発生しました。" + error);
+      toast({
+        title: "エラーが発生しました。",
+        description: String(error),
+        status: "error",
+        duration: 10000,
+        isClosable: true,
+      });
       return;
     } finally {
       setLoading(false);
@@ -68,30 +86,50 @@ const Login = () => {
   };
 
   return (
-    <>
-      <h1 className="mb-[20px] text-3xl font-bold tracking-wide">ログイン</h1>
+    <Contents>
+      <h1 className="mb-[20px] text-3xl font-bold tracking-wide">Login</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <p>
-          メールアドレス:
-          <input type="mail" {...register("email", { required: true })} />
+        <p className="mb-[15px] text-left">
+          <label htmlFor="email" className="mb-[5px] font-medium inline-block">
+            メールアドレス
+          </label>
+          <Input
+            id="email"
+            type="mail"
+            placeholder="Mail"
+            {...register("email", { required: true })}
+          />
         </p>
-        <p>
-          パスワード:
-          <input
+        <p className="mb-[15px] text-left">
+          <label
+            htmlFor="password"
+            className="mb-[5px] font-medium inline-block"
+          >
+            パスワード (6文字以上)
+          </label>
+          <Input
+            id="password"
             type="password"
+            placeholder="Password"
             {...register("password", { required: true })}
           />
         </p>
-        <div>
-          {loading ? (
-            <p>Loading...</p>
-          ) : (
-            <button type="submit">ログイン</button>
-          )}
+        <div className="mb-[20px]">
+          <Button type="submit" colorScheme="blue" isDisabled={loading}>
+            ログイン
+          </Button>
         </div>
-        {message && <p>{message}</p>}
+        <hr className="mb-[20px] color-[#E2E8F0]" />
+        <div className="flex justify-center gap-[20px]">
+          <Link href="/" className="text-app-main underline font-medium">
+            ログインせずに利用する
+          </Link>
+          <Link href="/signup" className="text-app-main underline font-medium">
+            サインアップはこちら
+          </Link>
+        </div>
       </form>
-    </>
+    </Contents>
   );
 };
 
