@@ -5,4 +5,5 @@ export type Profile ={
     introduce?: string; //自己紹介テキスト
     icon_image?: string; //アイコン画像パス
     cover_image?: string; //カバー画像パス
+    occupation?: string; //職種
 }
