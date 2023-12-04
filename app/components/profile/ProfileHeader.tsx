@@ -11,8 +11,6 @@ type ProfileHeaderProps = {
 
 const ProfileHeader: FC<ProfileHeaderProps> = ({ profile }) => {
   const [showProfile, setShowProfile] = useState(profile);
-  console.log("hoge");
-  
 
   return (
     <div className="bg-app-bg h-[360px]">

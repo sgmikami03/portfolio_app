@@ -12,7 +12,7 @@ const ProfileTab: FC<ProfileTabProps> = (props, params) => {
 	const tab_num: number = props.tabNum;
 
   return (
-    <div className="px-[16px] mx-auto max-w-[800px]">
+    <div className="px-[16px] mx-auto max-w-[800px] mb-[30px]">
       <Tabs variant="unstyled" defaultIndex={tab_num}>
         <TabList>
           <Link href={`/profile/${profile_id}/`}>

@@ -1,8 +1,9 @@
 import { NextPage } from "next";
-import { getProfileById } from "@/lib/supabase/profiles";
+import { getProfileByIdWithCareer } from "@/lib/supabase/profiles";
 import { Profile } from "@/type";
 import ProfileHeader from "@/components/profile/ProfileHeader";
 import ProfileTab from "@/components/profile/ProfileTab";
+import ProfileCareers from "@/components/profile/ProfileCareers";
 
 type PageProps = {
   params: {
@@ -12,13 +13,13 @@ type PageProps = {
 
 const ProfilePage: NextPage<PageProps> = async ({ params }) => {
   const profile_id: string = params.profile_id;
-  const profile: Profile | null = await getProfileById(profile_id);
+  const profile: Profile | null = await getProfileByIdWithCareer(profile_id);
 
   return (
     <>
       <ProfileHeader profile={profile} />
       <ProfileTab profileId={profile_id} tabNum={0} />
-      <p>キャリアコンポーネント</p>
+      <ProfileCareers careers={profile?.careers ?? []} />
     </>
   );
 };
