@@ -9,6 +9,7 @@ import {
   ModalContent,
   useDisclosure,
 } from "@chakra-ui/react";
+import EditModal from "../common/EditModal";
 
 type ProfileCareerProps = {
   career: Careers;
@@ -23,12 +24,9 @@ const ProfileCareer: FC<ProfileCareerProps> = (props) => {
 
   return (
     <>
-      <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <button onClick={onClose}>close</button>
-        </ModalContent>
-      </Modal>
+      <EditModal isOpen={isOpen} onClose={onClose}>
+        <p>{career.name}</p>
+      </EditModal>
       <div
         className="
     mx-auto mb-[40px] px-[16px] max-w-[800px] flex gap-[16px] relative
