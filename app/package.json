@@ -21,6 +21,7 @@
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.48.2",
+    "uuidv4": "^6.2.13",
     "zod": "^3.22.4"
   },
   "devDependencies": {

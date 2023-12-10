@@ -10,12 +10,12 @@ import {
   Text,
 } from "@chakra-ui/react";
 import Image from "next/image";
-import { useState, Dispatch } from "react";
+import { useState, Dispatch, useCallback, ChangeEvent } from "react";
 
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { updateProfile } from "@/lib/supabase/profiles";
+import { updateProfile, updateProfileIcon } from "@/lib/supabase/profiles";
 type Schema = z.infer<typeof schema>;
 
 // 入力データの検証ルールを定義
@@ -28,8 +28,10 @@ const schema = z.object({
 type ProfileEditModalProps = {
   profile: Profile | null;
   setProfile: Dispatch<React.SetStateAction<Profile | null>>;
-  iconImage: string;
-  setIconImage: Dispatch<React.SetStateAction<string>>;
+  iconImageUrl: string;
+  setIconImageUrl: Dispatch<React.SetStateAction<string>>;
+  iconImage: File | null;
+  setIconImage: Dispatch<React.SetStateAction<File | null>>;
   isOpen: boolean;
   onClose: () => void;
 };
@@ -37,12 +39,15 @@ type ProfileEditModalProps = {
 const ProfileEditModal = ({
   profile,
   setProfile,
+  iconImageUrl,
+  setIconImageUrl,
   iconImage,
   setIconImage,
   isOpen,
   onClose,
 }: ProfileEditModalProps) => {
   const [loading, setLoading] = useState(false);
+  const [fileMessage, setFileMessage] = useState("アイコンを変更する");
 
   const {
     register,
@@ -60,23 +65,54 @@ const ProfileEditModal = ({
     resolver: zodResolver(schema),
   });
 
+  const changeIconImage = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    setFileMessage("");
+
+    // ファイルが選択されていない場合
+    if (!files || files?.length == 0) {
+      setFileMessage("アイコンを変更する");
+      return;
+    }
+
+    const fileSize = files[0]?.size / 1024 / 1024; // size in MB
+
+    // 画像サイズが2MBを超える場合
+    if (fileSize > 2) {
+      setFileMessage("画像サイズを2MB以下にする必要があります。");
+      return;
+    }
+
+    // 画像をセット
+    setFileMessage(files[0].name);
+    setIconImage(files[0]);
+  }, []);
+
   // 送信
   const onSubmit: SubmitHandler<Schema> = async (data) => {
     setLoading(true);
 
     try {
+      let newIconImageUrl = null
+      if(iconImage){
+        newIconImageUrl = await updateProfileIcon(profile!.id, iconImage, profile?.icon_image)
+      }
+
       const { message, profile: newProfile } = await updateProfile(
         data.id,
         data.name,
-        data.occupation
+        data.occupation,
+        newIconImageUrl || null
       );
 
       if (message == "ng") {
         console.log("errorが発生しました。");
       } else {
-        console.log(newProfile);
         setProfile(newProfile);
-        onClose()
+        reset();
+        setIconImage(null);
+        setIconImageUrl(newIconImageUrl || "/images/icon/user.png");
+        onClose();
       }
     } catch (error) {
       console.log(error);
@@ -100,21 +136,30 @@ const ProfileEditModal = ({
             <FormLabel htmlFor="iconImage" cursor="pointer">
               <Box mx="auto" w="96px" h="96px" mb={2}>
                 <Image
-                  src={iconImage}
+                  src={
+                    iconImage ? URL.createObjectURL(iconImage) : iconImageUrl
+                  }
                   className="rounded-full object-cover"
                   alt="avatar"
                   width={96}
                   height={96}
                 />
               </Box>
-              <Input type="file" id="iconImage" display="none" />
+              <Input
+                type="file"
+                id="iconImage"
+                display="none"
+                onChange={(e) => changeIconImage(e)}
+                accept="image/png, image/jpeg"
+              />
               <Text
-                colorScheme="blue.500"
+                color="blue.500"
                 textDecoration="underline"
                 fontWeight="medium"
+                fontSize="14px"
                 textAlign="center"
               >
-                プロフィール画像を追加
+                {fileMessage}
               </Text>
             </FormLabel>
           </FormControl>
@@ -154,7 +199,11 @@ const ProfileEditModal = ({
             <Button type="button" colorScheme="gray" onClick={onClose} mr={4}>
               変更せずに戻る
             </Button>
-            <Button type="button" onClick={handleSubmit(onSubmit)} colorScheme="blue">
+            <Button
+              type="button"
+              onClick={handleSubmit(onSubmit)}
+              colorScheme="blue"
+            >
               内容を変更する
             </Button>
           </Box>
