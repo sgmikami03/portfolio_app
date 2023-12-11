@@ -3,12 +3,8 @@
 import { Profile } from "@/type";
 import { FC, useState } from "react";
 import Image from "next/image";
-import userImage from "@/public/images/icon/user.png";
 import { EditIcon } from "@chakra-ui/icons";
 import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
   useDisclosure,
 } from "@chakra-ui/react";
 import ProfileEditModal from "./ProfileEditModal";

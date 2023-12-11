@@ -1,5 +1,4 @@
 import supabase from "@/utils/supabase";
-import { randomUUID } from "crypto";
 import { v4 as uuidv4 } from 'uuid';
 
 export const getProfileById: any | null = async (id: string) => {
