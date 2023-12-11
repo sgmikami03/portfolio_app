@@ -16,6 +16,7 @@ const config: Config = {
     },
     colors: {
       "app-bg": "#F7FAFC",
+      "app-bg-g": "#E2E8F0",
       "app-main": "#3182CE",
       "app-text": "#1A202C"
     }
