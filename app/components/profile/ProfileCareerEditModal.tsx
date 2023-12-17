@@ -13,7 +13,7 @@ import {
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { createCareers } from "@/lib/supabase/careers";
+import { EditCareers } from "@/lib/supabase/careers";
 type Schema = z.infer<typeof schema>;
 
 import EditModal from "../common/EditModal";
@@ -28,19 +28,21 @@ const schema = z.object({
   text: z.string(),
 });
 
-type ProfileCareerCreateModalProps = {
-  profileId: string,
+type ProfileCareerEditModalProps = {
+  profileId: string;
+  career: Careers;
   isOpen: boolean;
   onClose: () => void;
   setCareers: Dispatch<React.SetStateAction<Careers[]>>;
 };
 
-const ProfileCareerCreateModal = ({
+const ProfileCareerEditModal = ({
   profileId,
+  career,
   isOpen,
   onClose,
   setCareers,
-}: ProfileCareerCreateModalProps) => {
+}: ProfileCareerEditModalProps) => {
   const [loading, setLoading] = useState(false);
 
   const {
@@ -51,11 +53,11 @@ const ProfileCareerCreateModal = ({
   } = useForm({
     // 初期値
     defaultValues: {
-      name: "",
-      occupation: "",
-      start: new Date("2000/01/01"),
-      end: new Date("2000/01/01"),
-      text: "",
+      name: career.name || "",
+      occupation: career.occupation || "",
+      start: career.start || new Date("2000/01/01"),
+      end: career.end || new Date("2000/01/01"),
+      text: career.text || "",
     },
     // 入力値の検証
     resolver: zodResolver(schema),
@@ -67,8 +69,9 @@ const ProfileCareerCreateModal = ({
     console.log(data);
 
     try {
-      const { message, careers: newCareers } = await createCareers(
+      const { message, careers: newCareers } = await EditCareers(
         profileId,
+        career.id,
         data.name,
         data.occupation,
         data.start,
@@ -190,4 +193,4 @@ const ProfileCareerCreateModal = ({
   );
 };
 
-export default ProfileCareerCreateModal;
+export default ProfileCareerEditModal;

@@ -19,7 +19,7 @@ const ProfileCareers: FC<ProfileCareersProps> = (props) => {
   return (
     <div className="">
       {careers.map((career, index) => (
-        <ProfileCareer career={career} key={index} isEdit={isEdit} />
+        <ProfileCareer career={career} key={index} isEdit={isEdit} profileId={profileId} setCareers={setCareers} />
       ))}
       {isEdit ? <ProfileCareerCreate setCareers={setCareers} profileId={profileId} /> : <></>}
     </div>
