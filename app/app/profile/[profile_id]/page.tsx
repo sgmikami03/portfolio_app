@@ -30,7 +30,7 @@ const ProfilePage: NextPage<PageProps> = async ({ params }) => {
     <>
       <ProfileHeader profile={profile} isEdit={isEdit} />
       <ProfileTab profileId={profile_id} tabNum={0} />
-      <ProfileCareers careers={profile?.careers ?? []} isEdit={isEdit} />
+      <ProfileCareers careers={profile?.careers ?? []} isEdit={isEdit} profileId={profile_id} />
     </>
   );
 };

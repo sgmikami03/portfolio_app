@@ -1,12 +1,9 @@
 import { Careers } from "@/type";
-import { FC } from "react";
+import { FC, Dispatch } from "react";
 import Image from "next/image";
 import careerImage from "@/public/images/icon/carrier.png";
 import { EditIcon } from "@chakra-ui/icons";
 import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
   useDisclosure,
 } from "@chakra-ui/react";
 import EditModal from "../common/EditModal";
