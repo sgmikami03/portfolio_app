@@ -80,7 +80,7 @@ const ProfileCareer: FC<ProfileCareerProps> = (props) => {
                     {career.name}
                     <span className="inline-block ml-2 text-base text-app-main">
                       {career.start ? getDateFromSupabaseDate(career.start).getFullYear() : ""}-
-                      {career.end ? getDateFromSupabaseDate(career.).getFullYear() : ""}
+                      {career.end ? getDateFromSupabaseDate(career.end).getFullYear() : ""}
                     </span>
                     <EditIcon color={"#333"} w={"15px"} ml={"7px"} />
                   </h3>
