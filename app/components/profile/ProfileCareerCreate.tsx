@@ -2,7 +2,7 @@ import { Careers } from "@/type";
 import { FC, Dispatch } from "react";
 import Image from "next/image";
 import careerImage from "@/public/images/icon/carrier.png";
-import { EditIcon } from "@chakra-ui/icons";
+import { AddIcon } from "@chakra-ui/icons";
 import { useDisclosure } from "@chakra-ui/react";
 import ProfileCareerCreateModal from "./ProfileCareerCreateModal";
 
@@ -31,7 +31,7 @@ const ProfileCareerCreate: FC<ProfileCareerCreateProps> = ({setCareers, profileI
           <button onClick={onOpen}>
             <h3 className="mb-[5px] text-xl font-bold leading-[30px]">
               新しく経歴を入力する
-              <EditIcon color={"#333"} w={"15px"} ml={"7px"} />
+              <AddIcon color={"#333"} w={"15px"} ml={"7px"} mb={"4px"} />
             </h3>
           </button>
         </div>

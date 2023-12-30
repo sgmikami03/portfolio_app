@@ -6,7 +6,8 @@ export type Profile = {
   icon_image?: string; //アイコン画像パス
   cover_image?: string; //カバー画像パス
   occupation?: string; //職種
-  careers: Careers[]; //経歴
+  careers?: Careers[]; //経歴
+  works?: Work[]; //作品
 };
 
 export type Careers = {
@@ -16,4 +17,12 @@ export type Careers = {
 	occupation?: string; //職種
 	start?: Date; //開始日 ****-**-**
 	end?: Date; //終了日 ****-**-**
+};
+
+export type Work = {
+	id: string; //uuid
+	title: string; //タイトル
+	text?: string; //テキスト
+	production?: string; //制作時期
+	thumbnail?: string; //サムネイル画像パス
 };

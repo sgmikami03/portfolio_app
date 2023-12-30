@@ -21,6 +21,17 @@ export const getProfileByIdWithCareer: any | null = async (id: string) => {
   return profile;
 };
 
+export const getProfileByIdWithWork: any | null = async (id: string) => {
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select(
+      `id, name, occupation, icon_image, works(id, title, text, production, thumbnail)`
+    )
+    .eq("id", id)
+    .single();
+  return profile;
+};
+
 export const updateProfile = async (
   id: string,
   name: string,

@@ -1,10 +1,11 @@
 import { NextPage } from "next";
 import { cookies } from "next/headers";
-import { getProfileByIdWithCareer } from "@/lib/supabase/profiles";
+import { getProfileByIdWithWork } from "@/lib/supabase/profiles";
 import { Profile } from "@/type";
 import ProfileHeader from "@/components/profile/ProfileHeader";
 import ProfileTab from "@/components/profile/ProfileTab";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+import WorkCards from "@/components/works/WorksCards";
 
 type PageProps = {
   params: {
@@ -14,7 +15,7 @@ type PageProps = {
 
 const ProfilePage: NextPage<PageProps> = async ({ params }) => {
   const profile_id: string = params.profile_id;
-  const profile: Profile | null = await getProfileByIdWithCareer(profile_id);
+  const profile: Profile | null = await getProfileByIdWithWork(profile_id);
 
   //ログインユーザーの取得
   const supabase = createServerComponentClient({
@@ -27,9 +28,9 @@ const ProfilePage: NextPage<PageProps> = async ({ params }) => {
 
   return (
     <>
-      <ProfileHeader profile={profile} isEdit />
+      <ProfileHeader profile={profile} isEdit={isEdit} />
       <ProfileTab profileId={profile_id} tabNum={1} />
-      <p>ワークスコンポーネント</p>
+      <WorkCards works={profile?.works ?? []} isEdit={isEdit} profile={profile} />
     </>
   );
 };
