@@ -5,8 +5,16 @@ import {
   ListItem,
   UnorderedList,
   OrderedList,
-  Button
+  Button,
 } from "@chakra-ui/react";
+import { useSlate } from "slate-react";
+import { ReactNode } from "react";
+import {
+  toggleBlock,
+  isBlockActive,
+  toggleMark,
+  isMarkActive,
+} from "./TextEditorFunc";
 
 export const DefaultElement = (props: any) => {
   return <Text {...props.attributes}>{props.children}</Text>;
@@ -75,5 +83,44 @@ export const Leaf = (props: any) => {
     >
       {props.children}
     </Text>
+  );
+};
+
+type ButtonProps = {
+  format: string;
+  icon: ReactNode;
+};
+
+export const MarkButton = (props: ButtonProps): ReactNode => {
+  const editor = useSlate();
+  return (
+    <Button
+      color={isMarkActive(editor, props.format) ? "#333" : "#B1B1B1"}
+      onMouseDown={(event) => {
+        event.preventDefault();
+        toggleMark(editor, props.format);
+      }}
+      size="sm"
+      p={1}
+    >
+      {props.icon}
+    </Button>
+  );
+};
+
+export const BlockButton = (props: ButtonProps): ReactNode => {
+  const editor = useSlate();
+  return (
+    <Button
+      color={isBlockActive(editor, props.format) ? "#333" : "#B1B1B1"}
+      onMouseDown={(event) => {
+        event.preventDefault();
+        toggleBlock(editor, props.format);
+      }}
+      size="sm"
+      p={1}
+    >
+      {props.icon}
+    </Button>
   );
 };

@@ -1,11 +1,11 @@
-import { useEffect, useState, useCallback, KeyboardEvent } from "react";
+import {
+  useState,
+  useCallback,
+  KeyboardEvent,
+} from "react";
 import {
   createEditor,
   Descendant,
-  BaseEditor,
-  Editor,
-  Element,
-  Transforms,
 } from "slate";
 import { Slate, Editable, withReact } from "slate-react";
 import {
@@ -19,7 +19,12 @@ import {
   BulletedListElement,
   NumberedListElement,
   Leaf,
+  MarkButton,
+  BlockButton,
 } from "./TextEditorBlock";
+import {
+  toggleMark,
+} from "./TextEditorFunc";
 
 import { Box, Button } from "@chakra-ui/react";
 import FormatBoldIcon from "@mui/icons-material/FormatBold";
@@ -94,145 +99,34 @@ const TextEditor = ({ initialValue }: TextEditorProps) => {
     }
   };
 
-  const toggleBlock = (editor: BaseEditor, format: string) => {
-    const isActive = isBlockActive(editor, format);
-    const isListSelected = isListActive(editor);
-    const isList = format == "bulleted-list" || format == "numbered-list";
-
-    if (isList && !isListSelected) {
-      //@ts-ignore
-      Transforms.setNodes(editor, { type: "list-item" });
-      //@ts-ignore
-      Transforms.wrapNodes(editor, { type: format, children: [] });
-    } else if (isList && isListSelected) {
-      Transforms.unwrapNodes(editor, {
-        //@ts-ignore
-        match: (n) => n.type == "bulleted-list" || n.type == "numbered-list",
-        split: true,
-      });
-      //@ts-ignore
-      Transforms.setNodes(editor, { type: "paragraph" });
-    } else if (isListSelected) {
-      Transforms.unwrapNodes(editor, {
-        //@ts-ignore
-        match: (n) => n.type == "bulleted-list" || n.type == "numbered-list",
-        split: true,
-      });
-      Transforms.setNodes(
-        editor,
-        //@ts-ignore
-        { type: isActive ? "paragraph" : format },
-        { match: (n) => Element.isElement(n) && Editor.isBlock(editor, n) }
-      );
-    } else {
-      Transforms.setNodes(
-        editor,
-        //@ts-ignore
-        { type: isActive ? "paragraph" : format },
-        { match: (n) => Element.isElement(n) && Editor.isBlock(editor, n) }
-      );
-    }
-  };
-
-  const isListActive = (editor: BaseEditor) => {
-    return (
-      isBlockActive(editor, "bulleted-list") ||
-      isBlockActive(editor, "numbered-list")
-    );
-  };
-
-  const isBlockActive = (
-    editor: BaseEditor,
-    format: string,
-    blockType = "type"
-  ) => {
-    const { selection } = editor;
-    if (!selection) return false;
-
-    const [match] = Array.from(
-      Editor.nodes(editor, {
-        at: Editor.unhangRange(editor, selection),
-        match: (n) =>
-          !Editor.isEditor(n) &&
-          Element.isElement(n) &&
-          //@ts-ignore
-          n[blockType] === format,
-      })
-    );
-    return !!match;
-  };
-
-  const toggleMark = (editor: BaseEditor, format: string) => {
-    const isActive = isMarkActive(editor, format);
-    if (isActive) {
-      Editor.removeMark(editor, format);
-    } else {
-      Editor.addMark(editor, format, true);
-    }
-  };
-
-  const isMarkActive = (editor: BaseEditor, format: string) => {
-    const marks = Editor.marks(editor) as Record<string, boolean> | undefined;
-    return marks ? marks[format] === true : false;
-  };
-
   const renderLeaf = useCallback((props: any) => {
     return <Leaf {...props} />;
   }, []);
 
-  useEffect(() => {
-    console.log(value);
-    console.log(Editor.nodes(editor));
-  }, [value]);
-
   return (
     <>
-      <Box>
-        <Button onClick={() => toggleMark(editor, "bold")} size="sm" p={1}>
-          <FormatBoldIcon />
-        </Button>
-        <Button onClick={() => toggleMark(editor, "italic")} size="sm" p={1}>
-          <FormatItalic />
-        </Button>
-        <Button onClick={() => toggleMark(editor, "underline")} size="sm" p={1}>
-          <FormatUnderlinedIcon />
-        </Button>
-        <Button
-          onClick={() => toggleBlock(editor, "heading-two")}
-          size="sm"
-          p={1}
-        >
-          <TitleIcon />
-        </Button>
-        <Button
-          onClick={() => toggleBlock(editor, "bulleted-list")}
-          size="sm"
-          p={1}
-        >
-          <FormatListBulletedIcon />
-        </Button>
-        <Button
-          onClick={() => toggleBlock(editor, "numbered-list")}
-          size="sm"
-          p={1}
-        >
-          <FormatListNumberedIcon />
-        </Button>
-        <Button onClick={() => toggleBlock(editor, "left")} size="sm" p={1}>
-          <FormatAlignLeftIcon />
-        </Button>
-        <Button onClick={() => toggleBlock(editor, "center")} size="sm" p={1}>
-          <FormatAlignCenterIcon />
-        </Button>
-        <Button onClick={() => toggleBlock(editor, "right")} size="sm" p={1}>
-          <FormatAlignRightIcon />
-        </Button>
-      </Box>
       <Slate
         editor={editor}
         initialValue={initialValue || initialValueDefault}
         onChange={(newValue) => setValue(newValue)}
       >
+        <Box>
+          <MarkButton format="bold" icon={<FormatBoldIcon />} />
+          <MarkButton format="italic" icon={<FormatItalic />} />
+          <MarkButton format="underline" icon={<FormatUnderlinedIcon />} />
+          <BlockButton format="heading-two" icon={<TitleIcon />} />
+          <BlockButton
+            format="bulleted-list"
+            icon={<FormatListBulletedIcon />}
+          />
+          <BlockButton
+            format="numbered-list"
+            icon={<FormatListNumberedIcon />}
+          />
+          <BlockButton format="left" icon={<FormatAlignLeftIcon />} />
+          <BlockButton format="center" icon={<FormatAlignCenterIcon />} />
+          <BlockButton format="right" icon={<FormatAlignRightIcon />} />
+        </Box>
         <Box
           as={Editable}
           style={{ outline: "0px" }}
