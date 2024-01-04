@@ -19,7 +19,11 @@ import {
 import { ExternalLinkIcon } from "@chakra-ui/icons";
 
 export const DefaultElement = (props: any) => {
-  return <Text {...props.attributes}>{props.children}</Text>;
+  return (
+    <Text {...props.attributes} mb="10px">
+      {props.children}
+    </Text>
+  );
 };
 
 export const LeftElement = (props: any) => {
@@ -32,7 +36,7 @@ export const LeftElement = (props: any) => {
 
 export const CenterElement = (props: any) => {
   return (
-    <Text {...props.attributes} textAlign="center">
+    <Text {...props.attributes} textAlign="center" mb="10px">
       {props.children}
     </Text>
   );
@@ -40,7 +44,7 @@ export const CenterElement = (props: any) => {
 
 export const RightElement = (props: any) => {
   return (
-    <Text {...props.attributes} textAlign="right">
+    <Text {...props.attributes} textAlign="right" mb="10px">
       {props.children}
     </Text>
   );
@@ -48,7 +52,7 @@ export const RightElement = (props: any) => {
 
 export const TitleElement = (props: any) => {
   return (
-    <Heading {...props.attributes} as="h2">
+    <Heading {...props.attributes} as="h2" mb="30px" fontSize="24px">
       {props.children}
     </Heading>
   );
@@ -59,11 +63,19 @@ export const ListItemElement = (props: any) => {
 };
 
 export const BulletedListElement = (props: any) => {
-  return <UnorderedList {...props.attributes}>{props.children}</UnorderedList>;
+  return (
+    <UnorderedList {...props.attributes} mb="10px">
+      {props.children}
+    </UnorderedList>
+  );
 };
 
 export const NumberedListElement = (props: any) => {
-  return <OrderedList {...props.attributes}>{props.children}</OrderedList>;
+  return (
+    <OrderedList {...props.attributes} mb="10px">
+      {props.children}
+    </OrderedList>
+  );
 };
 
 export const Leaf = (props: any) => {

@@ -98,7 +98,7 @@ const TextEditor = ({ initialValue }: TextEditorProps) => {
         initialValue={initialValue || initialValueDefault}
         onChange={(newValue) => setValue(newValue)}
       >
-        <Box>
+        <Box mb="10px">
           <MarkButton format="bold" icon={<FormatBoldIcon />} />
           <MarkButton format="italic" icon={<FormatItalic />} />
           <MarkButton format="underline" icon={<FormatUnderlinedIcon />} />
