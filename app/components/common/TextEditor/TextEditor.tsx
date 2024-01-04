@@ -10,7 +10,6 @@ import {
 import { Slate, Editable, withReact } from "slate-react";
 import {
   DefaultElement,
-  CodeElement,
   TitleElement,
   LeftElement,
   CenterElement,
@@ -53,8 +52,6 @@ const TextEditor = ({ initialValue }: TextEditorProps) => {
 
   const renderElement = useCallback((props: any) => {
     switch (props.element.type) {
-      case "code":
-        return <CodeElement {...props} />;
       case "heading-two":
         return <TitleElement {...props} />;
       case "list-item":

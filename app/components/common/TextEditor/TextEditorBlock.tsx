@@ -44,14 +44,6 @@ export const RightElement = (props: any) => {
   );
 };
 
-export const CodeElement = (props: any) => {
-  return (
-    <pre {...props.attributes}>
-      <Code p="30px">{props.children}</Code>
-    </pre>
-  );
-};
-
 export const TitleElement = (props: any) => {
   return (
     <Heading {...props.attributes} as="h2">
