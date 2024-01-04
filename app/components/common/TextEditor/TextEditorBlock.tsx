@@ -6,6 +6,7 @@ import {
   UnorderedList,
   OrderedList,
   Button,
+  Link,
 } from "@chakra-ui/react";
 import { useSlate } from "slate-react";
 import { ReactNode } from "react";
@@ -15,6 +16,7 @@ import {
   toggleMark,
   isMarkActive,
 } from "./TextEditorFunc";
+import { ExternalLinkIcon } from "@chakra-ui/icons";
 
 export const DefaultElement = (props: any) => {
   return <Text {...props.attributes}>{props.children}</Text>;

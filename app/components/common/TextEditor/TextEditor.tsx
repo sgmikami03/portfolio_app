@@ -1,12 +1,5 @@
-import {
-  useState,
-  useCallback,
-  KeyboardEvent,
-} from "react";
-import {
-  createEditor,
-  Descendant,
-} from "slate";
+import { useState, useCallback, KeyboardEvent } from "react";
+import { createEditor, Descendant } from "slate";
 import { Slate, Editable, withReact } from "slate-react";
 import {
   DefaultElement,
@@ -21,11 +14,9 @@ import {
   MarkButton,
   BlockButton,
 } from "./TextEditorBlock";
-import {
-  toggleMark,
-} from "./TextEditorFunc";
+import { toggleMark } from "./TextEditorFunc";
 
-import { Box, Button } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import FormatBoldIcon from "@mui/icons-material/FormatBold";
 import FormatItalic from "@mui/icons-material/FormatItalic";
 import FormatUnderlinedIcon from "@mui/icons-material/FormatUnderlined";
@@ -54,18 +45,18 @@ const TextEditor = ({ initialValue }: TextEditorProps) => {
     switch (props.element.type) {
       case "heading-two":
         return <TitleElement {...props} />;
-      case "list-item":
-        return <ListItemElement {...props} />;
-      case "bulleted-list":
-        return <BulletedListElement {...props} />;
-      case "numbered-list":
-        return <NumberedListElement {...props} />;
       case "left":
         return <LeftElement {...props} />;
       case "center":
         return <CenterElement {...props} />;
       case "right":
         return <RightElement {...props} />;
+      case "list-item":
+        return <ListItemElement {...props} />;
+      case "bulleted-list":
+        return <BulletedListElement {...props} />;
+      case "numbered-list":
+        return <NumberedListElement {...props} />;
       default:
         return <DefaultElement {...props} />;
     }
@@ -122,6 +113,7 @@ const TextEditor = ({ initialValue }: TextEditorProps) => {
           />
           <BlockButton format="left" icon={<FormatAlignLeftIcon />} />
           <BlockButton format="center" icon={<FormatAlignCenterIcon />} />
+          <BlockButton format="right" icon={<FormatAlignRightIcon />} />
           <BlockButton format="right" icon={<FormatAlignRightIcon />} />
         </Box>
         <Box
