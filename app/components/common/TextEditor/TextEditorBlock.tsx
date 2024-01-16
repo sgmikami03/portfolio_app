@@ -1,6 +1,5 @@
 import {
   Text,
-  Code,
   Heading,
   ListItem,
   UnorderedList,
@@ -26,7 +25,7 @@ export const DefaultElement = (props: any) => {
 
 export const LeftElement = (props: any) => {
   return (
-    <Text {...props.attributes} textAlign="left">
+    <Text {...props.attributes} textAlign="left" mb="10px">
       {props.children}
     </Text>
   );

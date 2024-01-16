@@ -1,4 +1,10 @@
-import { useState, useCallback, KeyboardEvent } from "react";
+import {
+  useState,
+  useCallback,
+  KeyboardEvent,
+  Dispatch,
+  useEffect,
+} from "react";
 import { createEditor, Descendant } from "slate";
 import { Slate, Editable, withReact } from "slate-react";
 import {
@@ -28,7 +34,8 @@ import FormatAlignCenterIcon from "@mui/icons-material/FormatAlignCenter";
 import FormatAlignRightIcon from "@mui/icons-material/FormatAlignRight";
 
 type TextEditorProps = {
-  initialValue?: Descendant[];
+  text?: Descendant[];
+  setText: Dispatch<React.SetStateAction<Descendant[] | undefined>>;
 };
 
 const initialValueDefault: Descendant[] = [
@@ -37,9 +44,14 @@ const initialValueDefault: Descendant[] = [
   },
 ];
 
-const TextEditor = ({ initialValue }: TextEditorProps) => {
+const TextEditor = ({ text, setText }: TextEditorProps) => {
   const [editor] = useState(() => withReact(createEditor()));
-  const [value, setValue] = useState(initialValue);
+
+  useEffect(() => {
+    if (text) {
+      setText(initialValueDefault);
+    }
+  }, []);
 
   const renderElement = useCallback((props: any) => {
     switch (props.element.type) {
@@ -95,8 +107,8 @@ const TextEditor = ({ initialValue }: TextEditorProps) => {
     <>
       <Slate
         editor={editor}
-        initialValue={initialValue || initialValueDefault}
-        onChange={(newValue) => setValue(newValue)}
+        initialValue={text || initialValueDefault}
+        onChange={(newText) => setText(newText)}
       >
         <Box mb="10px">
           <MarkButton format="bold" icon={<FormatBoldIcon />} />
@@ -113,7 +125,6 @@ const TextEditor = ({ initialValue }: TextEditorProps) => {
           />
           <BlockButton format="left" icon={<FormatAlignLeftIcon />} />
           <BlockButton format="center" icon={<FormatAlignCenterIcon />} />
-          <BlockButton format="right" icon={<FormatAlignRightIcon />} />
           <BlockButton format="right" icon={<FormatAlignRightIcon />} />
         </Box>
         <Box
