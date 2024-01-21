@@ -2,7 +2,7 @@
 
 import { FC, useState, useCallback, ChangeEvent } from "react";
 import Link from "next/link";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import {
   Input,
   Button,
@@ -66,7 +66,7 @@ const WorkForm: FC<WorkFormProps> = (props) => {
   const isNew = props.isNew;
   const toast = useToast();
   const router = useRouter();
-  const { isOpen, onOpen, onClose } = useDisclosure()
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const changeThumbnailImage = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
@@ -100,9 +100,9 @@ const WorkForm: FC<WorkFormProps> = (props) => {
 
   const onSubmit: SubmitHandler<Schema> = useCallback(
     async (data) => {
-      setLoading(true);
-
       try {
+        setLoading(true);
+
         let newThumbnailImageUrl = null;
         if (thumbnailImage) {
           newThumbnailImageUrl = await updateThumbnailImage(
@@ -145,10 +145,11 @@ const WorkForm: FC<WorkFormProps> = (props) => {
             isClosable: true,
           });
           //TODO: 作品詳細に置き換える
-          redirect("/");
+          router.push("/");
         }
       } catch (error) {
-        console.log(error);
+        console.error("Zodバリデーションエラー", error);
+        setLoading(false);
       }
     },
     [text]
@@ -156,13 +157,20 @@ const WorkForm: FC<WorkFormProps> = (props) => {
 
   return (
     <>
-      <Modal isCentered blockScrollOnMount={false} isOpen={isOpen} onClose={onClose}>
+      <Modal
+        isCentered
+        blockScrollOnMount={false}
+        isOpen={isOpen}
+        onClose={onClose}
+      >
         <ModalOverlay />
         <ModalContent>
           <ModalCloseButton />
           <ModalBody pt="40px" pb="30px">
             <Box textAlign="center">
-              <Text mb="20px" fontWeight="bold">修正された内容は戻りませんがよろしいでしょうか？</Text>
+              <Text mb="20px" fontWeight="bold">
+                修正された内容は戻りませんがよろしいでしょうか？
+              </Text>
               <Link href="/" passHref>
                 <Button as="a" variant="outline" colorScheme="blue">
                   保存せずに戻る
@@ -210,18 +218,25 @@ const WorkForm: FC<WorkFormProps> = (props) => {
               return false;
             }}
           >
-            <Input
-              id="title"
-              type="text"
-              placeholder="タイトル"
-              variant="unstyled"
-              border="none"
-              fontSize="24px"
-              height="36px"
-              m="30px 16px 20px 16px"
-              fontWeight="bold"
-              {...register("title")}
-            />
+            <Box mb="20px">
+              <Input
+                id="title"
+                type="text"
+                placeholder="タイトル"
+                variant="unstyled"
+                border="none"
+                fontSize="24px"
+                height="36px"
+                m="30px 16px 0 16px"
+                fontWeight="bold"
+                {...register("title")}
+              />
+              {errors.title?.message && (
+                <Text ml="16px" textColor="red">
+                  {errors.title?.message}
+                </Text>
+              )}
+            </Box>
             <Input
               id="production"
               type="date"
