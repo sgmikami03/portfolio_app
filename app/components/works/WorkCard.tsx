@@ -18,8 +18,6 @@ type WorkCardProps = {
 const WorkCard: FC<WorkCardProps> = (props) => {
   const work = props.work;
   const profile = props.profile;
-  const isEdit = props.isEdit;
-  const setCareers = props.setWorks;
 
   const thumbnailImageUrl = work?.thumbnail || "/images/sample/works.png";
   const iconImageUrl = profile?.icon_image || "/images/icon/user.png";

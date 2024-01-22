@@ -1,6 +1,21 @@
+import { Work } from "@/type";
 import supabase from "@/utils/supabase";
 import { Descendant } from "slate";
 import { v4 as uuidv4 } from "uuid";
+
+export const getWorksByIdWithProfiles = async (id: string): Promise<Work | null> => {
+  const { data: works } = await supabase
+    .from("works")
+    .select(`id, profiles_id, production, create_at, text, title, thumbnail, profiles(id, name, icon_image, occupation)`)
+    .eq("id", id)
+    .single();
+  
+  if(!works){
+    return null;
+  }
+  
+  return works as unknown as Work;
+};
 
 export const createWorks = async (
   work_id: string,
@@ -10,16 +25,15 @@ export const createWorks = async (
   text: Descendant[] | undefined,
   thumbnail: string | null
 ) => {
-  
   const { error } = await supabase.from("works").insert({
     id: work_id,
     profiles_id: profile_id,
     title: title,
     production: production,
-    text: {data: text},
+    text: { data: text },
     thumbnail: thumbnail || null,
   });
-  
+
   if (error) {
     return { message: "ng" };
   } else {

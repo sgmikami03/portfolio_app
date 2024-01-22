@@ -1,3 +1,5 @@
+import { Descendant } from "slate";
+
 export type Profile = {
   id: string; //uuid
   email?: string; //メールアドレス 取得しなくてもいい
@@ -22,7 +24,12 @@ export type Careers = {
 export type Work = {
 	id: string; //uuid
 	title: string; //タイトル
-	text?: string; //テキスト
-	production?: string; //制作時期
+	text?: Text; //テキスト
+	production: any; //制作時期
 	thumbnail?: string; //サムネイル画像パス
+	profiles: Profile;
 };
+
+type Text = {
+	data?: Descendant[];
+}

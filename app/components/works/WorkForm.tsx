@@ -27,8 +27,6 @@ import * as z from "zod";
 
 import TextEditor from "@/components/common/TextEditor/TextEditor";
 import { v4 as uuidv4 } from "uuid";
-import Footer from "../common/Fotter";
-
 type Schema = z.infer<typeof schema>;
 
 const schema = z.object({
@@ -286,7 +284,6 @@ const WorkForm: FC<WorkFormProps> = (props) => {
           </Card>
         </Box>
       </Box>
-      <Footer />
     </>
   );
 };
