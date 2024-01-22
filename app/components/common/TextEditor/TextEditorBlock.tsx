@@ -49,7 +49,7 @@ export const RightElement = (props: any) => {
 
 export const TitleElement = (props: any) => {
   return (
-    <Heading {...props.attributes} as="h2" mb="30px" fontSize="24px">
+    <Heading {...props.attributes} as="h2" mb="10px" fontSize="24px">
       {props.children}
     </Heading>
   );
