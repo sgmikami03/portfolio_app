@@ -13,7 +13,7 @@ const Header = () => {
         justifyContent="space-between"
         alignItems="center"
       >
-        <Image src="/images/icon/icon.png" alt="" width={173} height={20} />
+        <Image src="/images/icon/icon.svg" alt="" width={173} height={20} />
       </Box>
     </Box>
   );
