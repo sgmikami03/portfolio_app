@@ -8,7 +8,7 @@ import { Button } from "@chakra-ui/react";
 import Link from "next/link";
 
 const Home = async () => {
-  const works = await getWorksWithLimitWithProfiles(4);
+  const works = await getWorksWithLimitWithProfiles(6);
 
   return (
     <Layout>
