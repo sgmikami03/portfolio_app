@@ -1,16 +1,21 @@
 "use client";
 
-import { Work } from "@/type";
+import { Profile, Work } from "@/type";
 import { FC, useState } from "react";
 import WorkCard from "./WorkCard";
 import { Box } from "@chakra-ui/react";
+import WorkCardCreate from "./WorkCardCreate";
 
 type WorkCardsProps = {
-  works: Work[] | null;
+  profile: Profile | null;
+  works: Work[];
+  isEdit: boolean;
 };
 
-const WorkCards: FC<WorkCardsProps> = (props) => {
-  const [works, setWorks] = useState<Work[]>(props.works ?? []);
+const WorkCardsWithCreateCard: FC<WorkCardsProps> = (props) => {
+  const [works, setWorks] = useState<Work[]>(props.works);
+  const isEdit = props.isEdit;
+  const profile = props.profile;
 
   return (
     <Box
@@ -33,18 +38,24 @@ const WorkCards: FC<WorkCardsProps> = (props) => {
         display: "block",
         width: `calc((100% - 32px * 2)/3)`,
       }}
+      justifyContent="space-between"
     >
       {works.map((work, index) => (
         <WorkCard
           work={work}
           key={index}
-          profile={work.profiles}
-          isEdit={false}
+          isEdit={isEdit}
+          profile={profile}
           setWorks={setWorks}
         />
       ))}
+      {isEdit ? (
+        <WorkCardCreate profileId={profile?.id || null} setWorks={setWorks} />
+      ) : (
+        <></>
+      )}
     </Box>
   );
 };
 
-export default WorkCards;
+export default WorkCardsWithCreateCard;

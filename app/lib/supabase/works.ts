@@ -3,17 +3,39 @@ import supabase from "@/utils/supabase";
 import { Descendant } from "slate";
 import { v4 as uuidv4 } from "uuid";
 
-export const getWorksByIdWithProfiles = async (id: string): Promise<Work | null> => {
+export const getWorksWithLimitWithProfiles = async (
+  limit: number
+): Promise<Work[] | null> => {
   const { data: works } = await supabase
     .from("works")
-    .select(`id, profiles_id, production, create_at, text, title, thumbnail, profiles(id, name, icon_image, occupation)`)
-    .eq("id", id)
-    .single();
-  
-  if(!works){
+    .select(
+      `id, profiles_id, production, create_at, text, title, thumbnail, profiles(id, name, icon_image, occupation)`
+    )
+    .order("create_at", { ascending: false })
+    .limit(limit);
+
+  if (!works) {
     return null;
   }
-  
+
+  return works as unknown as Work[];
+};
+
+export const getWorksByIdWithProfiles = async (
+  id: string
+): Promise<Work | null> => {
+  const { data: works } = await supabase
+    .from("works")
+    .select(
+      `id, profiles_id, production, create_at, text, title, thumbnail, profiles(id, name, icon_image, occupation)`
+    )
+    .eq("id", id)
+    .single();
+
+  if (!works) {
+    return null;
+  }
+
   return works as unknown as Work;
 };
 
