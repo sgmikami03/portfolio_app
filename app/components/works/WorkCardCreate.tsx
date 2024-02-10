@@ -16,7 +16,10 @@ const WorkCardCreate: FC<WorkCardProps> = (props) => {
   return (
     <Card
       as="button"
-      width={`calc((100% - 32px * 2)/3)`}
+      width={{ base: "100%", md: `calc((100% - 32px * 2)/3)` }}
+      maxW={{ base: "350px", md: "inherit" }}
+      minH="250px"
+      mx={{ base: "auto", md: "inherit" }}
       display="flex"
       alignItems="center"
       justifyContent="center"

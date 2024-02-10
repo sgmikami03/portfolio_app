@@ -23,15 +23,25 @@ const WorkCards: FC<WorkCardsProps> = (props) => {
       gap="32px"
       position="relative"
       _before={{
-        content: '""',
-        display: "block",
-        width: `calc((100% - 32px * 2)/3)`,
-        order: "1",
+        base: {
+          content: '""',
+          display: "block",
+          width: `calc((100% - 32px * 2)/3)`,
+          order: "1",
+        },
+        md: {
+          display: "none",
+        },
       }}
       _after={{
-        content: '""',
-        display: "block",
-        width: `calc((100% - 32px * 2)/3)`,
+        base: {
+          content: '""',
+          display: "block",
+          width: `calc((100% - 32px * 2)/3)`,
+        },
+        md: {
+          display: "none",
+        },
       }}
     >
       {works.map((work, index) => (
