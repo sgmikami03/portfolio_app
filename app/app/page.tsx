@@ -17,7 +17,12 @@ const Home = async () => {
       <section>
         <SectoinTitle text={"みんなの作品を見る"} />
         <WorkCards works={works} />
-        <Button colorScheme="blue" variant="outline" display="block" m="0 auto 60px auto">
+        <Button
+          colorScheme="blue"
+          variant="outline"
+          display="block"
+          m="0 auto 60px auto"
+        >
           <Link href="/">
             {/* TODO: リンク修正 */}
             もっとみる
