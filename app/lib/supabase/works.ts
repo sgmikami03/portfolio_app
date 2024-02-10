@@ -63,6 +63,32 @@ export const createWorks = async (
   }
 };
 
+export const updateWorks = async (
+  work_id: string,
+  profile_id: string,
+  title: string,
+  production: string,
+  text: Descendant[] | undefined,
+  thumbnail: string | null
+) => {
+  const { error } = await supabase
+    .from("works")
+    .update({
+      profiles_id: profile_id,
+      title: title,
+      production: production,
+      text: { data: text },
+      thumbnail: thumbnail || null,
+    })
+    .eq("id", work_id);
+
+  if (error) {
+    return { message: "ng" };
+  } else {
+    return { message: "ok" };
+  }
+};
+
 export const updateThumbnailImage = async (
   work_id: string,
   thumbnailImage: File,

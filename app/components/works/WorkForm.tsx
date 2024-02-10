@@ -18,7 +18,7 @@ import {
   ModalCloseButton,
   useDisclosure,
 } from "@chakra-ui/react";
-import { createWorks, updateThumbnailImage } from "@/lib/supabase/works";
+import { createWorks, updateThumbnailImage, updateWorks } from "@/lib/supabase/works";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Descendant } from "slate";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -45,21 +45,26 @@ const WorkForm: FC<WorkFormProps> = (props) => {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
   } = useForm({
     defaultValues: {
-      title: "",
-      production: new Date().toISOString().split("T")[0],
+      title: props.work.title ?? "",
+      production:
+        props.work.production ?? new Date().toISOString().split("T")[0],
     },
     // 入力値の検証
     resolver: zodResolver(schema),
   });
 
-  const [text, setText] = useState<Descendant[] | undefined>(undefined);
+  const [text, setText] = useState<Descendant[] | undefined>(
+    props.work.text.data ?? undefined
+  );
   const [fileMessage, setFileMessage] = useState("");
+  const [isUseSettingThumbnailImage, setIsUseSettingThumbnailImage] = useState(
+    props.work.thumbnail ? true : false
+  );
   const [thumbnailImage, setThumbnailImage] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
-  const workId = uuidv4();
+  const workId = props.work?.id ?? uuidv4();
   const profileId = props.profileId;
   const isNew = props.isNew;
   const toast = useToast();
@@ -102,7 +107,10 @@ const WorkForm: FC<WorkFormProps> = (props) => {
         setLoading(true);
 
         let newThumbnailImageUrl = null;
-        if (thumbnailImage) {
+
+        if (isUseSettingThumbnailImage) {
+          newThumbnailImageUrl = props.work.thumbnail;
+        } else if (thumbnailImage) {
           newThumbnailImageUrl = await updateThumbnailImage(
             workId,
             thumbnailImage
@@ -121,7 +129,15 @@ const WorkForm: FC<WorkFormProps> = (props) => {
           );
           message = res.message;
         } else {
-          const message = "ng";
+          const res = await updateWorks(
+            workId,
+            profileId,
+            data.title,
+            data.production,
+            text,
+            newThumbnailImageUrl
+          );
+          message = res.message;
         }
 
         if (message == "ng") {
@@ -133,6 +149,7 @@ const WorkForm: FC<WorkFormProps> = (props) => {
             duration: 10000,
             isClosable: true,
           });
+          setLoading(false);
           return;
         } else {
           toast({
@@ -252,31 +269,54 @@ const WorkForm: FC<WorkFormProps> = (props) => {
           </form>
 
           <Box m="0px 15px 60px 15px" display="flex" gap="10px">
-            <FormLabel htmlFor="thumbnail-input" cursor="pointer">
-              <Button as="span" border="1px #B1B1B1 dashed" bg="none">
-                サムネイル画像
-              </Button>
-              <Input
-                id="thumbnail-input"
-                type="file"
-                onChange={(e) => changeThumbnailImage(e)}
-                display="none"
-              />
-            </FormLabel>
-            {thumbnailImage ? (
-              <Image
-                src={URL.createObjectURL(thumbnailImage)}
-                alt=""
-                width={50}
-                height={40}
-                style={{ objectFit: "cover" }}
-              />
+            {isUseSettingThumbnailImage ? (
+              <>
+                <Button
+                  border="1px #B1B1B1 dashed"
+                  bg="none"
+                  onClick={() => {
+                    setIsUseSettingThumbnailImage(false);
+                  }}
+                >
+                  サムネイル画像を変更する
+                </Button>
+                <Image
+                  src={props.work.thumbnail}
+                  alt=""
+                  width={50}
+                  height={40}
+                  style={{ objectFit: "cover" }}
+                />
+              </>
             ) : (
-              <></>
+              <>
+                <FormLabel htmlFor="thumbnail-input" cursor="pointer">
+                  <Button as="span" border="1px #B1B1B1 dashed" bg="none">
+                    サムネイル画像
+                  </Button>
+                  <Input
+                    id="thumbnail-input"
+                    type="file"
+                    onChange={(e) => changeThumbnailImage(e)}
+                    display="none"
+                  />
+                </FormLabel>
+                {thumbnailImage ? (
+                  <Image
+                    src={URL.createObjectURL(thumbnailImage)}
+                    alt=""
+                    width={50}
+                    height={40}
+                    style={{ objectFit: "cover" }}
+                  />
+                ) : (
+                  <></>
+                )}
+                <Text as="span" lineHeight="40px">
+                  {fileMessage}
+                </Text>
+              </>
             )}
-            <Text as="span" lineHeight="40px">
-              {fileMessage}
-            </Text>
           </Box>
 
           <Card p="16px" minH="400px">

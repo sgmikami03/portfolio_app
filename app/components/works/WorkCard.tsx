@@ -2,6 +2,7 @@ import { Work, Profile } from "@/type";
 import { FC, Dispatch } from "react";
 import Image from "next/image";
 import { Text, Box, Card, Heading } from "@chakra-ui/react";
+import Link from "next/link";
 
 type WorkCardProps = {
   profile: Profile | null;
@@ -23,26 +24,28 @@ const WorkCard: FC<WorkCardProps> = (props) => {
       maxW={{ base: "350px", md: "inherit" }}
       mx={{ base: "auto", md: "inherit" }}
     >
-      <Box
-        h="130px"
-        w="100%"
-        position="relative"
-        minH={{ base: "200px", md: "inherit" }}
-      >
-        <Image
-          src={thumbnailImageUrl}
-          alt=""
-          fill
-          style={{ objectFit: "cover" }}
-        />
-      </Box>
-      <Heading as="h3" fontSize="16px" fontWeight="bold" margin="10px">
-        {work.title}
-      </Heading>
-      <Text display="flex" gap="10px" margin="0 10px 10px 10px">
-        <Image src={iconImageUrl} alt="" width={25} height={25} />
-        {profile?.name}
-      </Text>
+      <Link href={`/work/${work.id}`}>
+        <Box
+          h="130px"
+          w="100%"
+          position="relative"
+          minH={{ base: "200px", md: "inherit" }}
+        >
+          <Image
+            src={thumbnailImageUrl}
+            alt=""
+            fill
+            style={{ objectFit: "cover" }}
+          />
+        </Box>
+        <Heading as="h3" fontSize="16px" fontWeight="bold" margin="10px">
+          {work.title}
+        </Heading>
+        <Text display="flex" gap="10px" margin="0 10px 10px 10px">
+          <Image src={iconImageUrl} alt="" width={25} height={25} />
+          {profile?.name}
+        </Text>
+      </Link>
     </Card>
   );
 };
