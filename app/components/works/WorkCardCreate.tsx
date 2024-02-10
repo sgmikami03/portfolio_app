@@ -18,7 +18,7 @@ const WorkCardCreate: FC<WorkCardProps> = (props) => {
       as="button"
       width={{ base: "100%", md: `calc((100% - 32px * 2)/3)` }}
       maxW={{ base: "350px", md: "inherit" }}
-      minH="250px"
+      minH={{ base: "250px", md: "inherit" }}
       mx={{ base: "auto", md: "inherit" }}
       display="flex"
       alignItems="center"

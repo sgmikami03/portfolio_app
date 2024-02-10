@@ -24,23 +24,23 @@ const WorkCards: FC<WorkCardsProps> = (props) => {
       position="relative"
       _before={{
         base: {
+          display: "none",
+        },
+        md: {
           content: '""',
           display: "block",
           width: `calc((100% - 32px * 2)/3)`,
           order: "1",
         },
-        md: {
-          display: "none",
-        },
       }}
       _after={{
         base: {
+          display: "none",
+        },
+        md: {
           content: '""',
           display: "block",
           width: `calc((100% - 32px * 2)/3)`,
-        },
-        md: {
-          display: "none",
         },
       }}
     >
