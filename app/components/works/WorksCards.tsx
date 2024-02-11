@@ -16,7 +16,6 @@ const WorkCards: FC<WorkCardsProps> = (props) => {
     <Box
       mx="auto"
       px="16px"
-      mb="32px"
       maxW="800px"
       display="flex"
       flexWrap="wrap"
