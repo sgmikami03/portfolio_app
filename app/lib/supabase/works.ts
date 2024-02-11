@@ -2,11 +2,13 @@ import { Work } from "@/type";
 import supabase from "@/utils/supabase";
 import { Descendant } from "slate";
 import { v4 as uuidv4 } from "uuid";
+import { unstable_noStore as noStore } from "next/cache";
 
 export const countWorks = async (): Promise<number> => {
+  noStore();
   const { count } = await supabase
     .from("works")
-    .select("*", { count: 'exact', head: true })
+    .select("*", { count: "exact", head: true });
 
   if (count === null) {
     return 0;
@@ -19,6 +21,7 @@ export const getWorksWithLimitWithProfiles = async (
   limit: number,
   skip: number
 ): Promise<Work[] | null> => {
+  noStore();
   const { data: works } = await supabase
     .from("works")
     .select(
@@ -38,6 +41,7 @@ export const getWorksWithLimitWithProfiles = async (
 export const getWorksByIdWithProfiles = async (
   id: string
 ): Promise<Work | null> => {
+  noStore();
   const { data: works } = await supabase
     .from("works")
     .select(
