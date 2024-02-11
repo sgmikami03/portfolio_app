@@ -22,27 +22,6 @@ const WorkCards: FC<WorkCardsProps> = (props) => {
       flexWrap="wrap"
       gap="32px"
       position="relative"
-      _before={{
-        base: {
-          display: "none",
-        },
-        md: {
-          content: '""',
-          display: "block",
-          width: `calc((100% - 32px * 2)/3)`,
-          order: "1",
-        },
-      }}
-      _after={{
-        base: {
-          display: "none",
-        },
-        md: {
-          content: '""',
-          display: "block",
-          width: `calc((100% - 32px * 2)/3)`,
-        },
-      }}
     >
       {works.map((work, index) => (
         <WorkCard
@@ -53,6 +32,18 @@ const WorkCards: FC<WorkCardsProps> = (props) => {
           setWorks={setWorks}
         />
       ))}
+
+      {/* flexのための空ブロック */}
+      <Box
+        as="span"
+        display={{ base: "none", md: "block" }}
+        width={`calc((100% - 32px * 2)/3)`}
+      ></Box>
+      <Box
+        as="span"
+        display={{ base: "none", md: "block" }}
+        width={`calc((100% - 32px * 2)/3)`}
+      ></Box>
     </Box>
   );
 };
