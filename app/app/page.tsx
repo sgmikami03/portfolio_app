@@ -3,19 +3,19 @@ import Hero from "@/components/top/Hero";
 
 import { getWorksWithLimitWithProfiles } from "@/lib/supabase/works";
 import WorkCards from "@/components/works/WorksCards";
-import SectoinTitle from "@/components/common/SectoinTitle";
+import SectionTitle from "@/components/common/SectionTitle";
 import { Button } from "@chakra-ui/react";
 import Link from "next/link";
 
 const Home = async () => {
-  const works = await getWorksWithLimitWithProfiles(6);
+  const works = await getWorksWithLimitWithProfiles(6, 0);
 
   return (
     <Layout>
       <Hero />
 
       <section>
-        <SectoinTitle text={"みんなの作品を見る"} />
+        <SectionTitle text={"みんなの作品を見る"} />
         <WorkCards works={works} />
         <Button
           colorScheme="blue"
@@ -23,8 +23,7 @@ const Home = async () => {
           display="block"
           m="0 auto 60px auto"
         >
-          <Link href="/">
-            {/* TODO: リンク修正 */}
+          <Link href="/work/list/1">
             もっとみる
           </Link>
         </Button>

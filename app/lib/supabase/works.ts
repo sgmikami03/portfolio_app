@@ -3,8 +3,21 @@ import supabase from "@/utils/supabase";
 import { Descendant } from "slate";
 import { v4 as uuidv4 } from "uuid";
 
+export const countWorks = async (): Promise<number> => {
+  const { count } = await supabase
+    .from("works")
+    .select("*", { count: 'exact', head: true })
+
+  if (count === null) {
+    return 0;
+  }
+
+  return count;
+};
+
 export const getWorksWithLimitWithProfiles = async (
-  limit: number
+  limit: number,
+  skip: number
 ): Promise<Work[] | null> => {
   const { data: works } = await supabase
     .from("works")
@@ -12,6 +25,7 @@ export const getWorksWithLimitWithProfiles = async (
       `id, profiles_id, production, create_at, text, title, thumbnail, profiles(id, name, icon_image, occupation)`
     )
     .order("create_at", { ascending: false })
+    .range(skip, skip + limit - 1)
     .limit(limit);
 
   if (!works) {
