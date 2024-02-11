@@ -56,22 +56,32 @@ export const TitleElement = (props: any) => {
 };
 
 export const ListItemElement = (props: any) => {
-  return <ListItem {...props.attributes}>{props.children}</ListItem>;
+  return <li {...props.attributes}>{props.children}</li>;
 };
 
 export const BulletedListElement = (props: any) => {
   return (
-    <UnorderedList {...props.attributes} mb="10px">
+    <ul
+      {...props.attributes}
+      style={{ marginBottom: "10px", listStyle: "inside" }}
+    >
       {props.children}
-    </UnorderedList>
+    </ul>
   );
 };
 
 export const NumberedListElement = (props: any) => {
   return (
-    <OrderedList {...props.attributes} mb="10px">
+    <ol
+      {...props.attributes}
+      style={{
+        marginBottom: "10px",
+        listStyle: "inside",
+        listStyleType: "decimal",
+      }}
+    >
       {props.children}
-    </OrderedList>
+    </ol>
   );
 };
 
