@@ -5,6 +5,7 @@ import { NextPage } from "next";
 import WorksCreateLayout from "@/components/works/WorksCreateLayout";
 import { redirect } from "next/navigation";
 import { getWorksByIdWithProfiles } from "@/lib/supabase/works";
+import { unstable_noStore as noStore } from 'next/cache';
 
 type PageProps = {
   params: {
@@ -23,6 +24,7 @@ const WorkEdit: NextPage<PageProps> = async ({ params: { work_id } }) => {
   } = await supabase.auth.getSession();
   const profileId = session?.user.id;
 
+  noStore();
   const works = await getWorksByIdWithProfiles(work_id);
 
   //TODO: works.profiles.id == user.id でないなら "/"にリダイレクトする。
