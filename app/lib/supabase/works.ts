@@ -132,7 +132,7 @@ export const updateThumbnailImage = async (
 
   // 画像のURLを取得
   const { data: urlData } = await supabase.storage
-    .from("profiles")
+    .from("works")
     .getPublicUrl(storageData.path);
 
   const newIconImageUrl = urlData.publicUrl;

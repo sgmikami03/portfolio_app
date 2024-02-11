@@ -159,15 +159,14 @@ const WorkForm: FC<WorkFormProps> = (props) => {
             duration: 10000,
             isClosable: true,
           });
-          //TODO: 作品詳細に置き換える
-          router.push("/");
+          router.push(`/work/${workId}`);
         }
       } catch (error) {
         console.error("Zodバリデーションエラー", error);
         setLoading(false);
       }
     },
-    [text]
+    [text, isUseSettingThumbnailImage, thumbnailImage]
   );
 
   return (
