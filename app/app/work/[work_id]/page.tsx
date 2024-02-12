@@ -71,7 +71,7 @@ const WorkDetail: NextPage<PageProps> = async ({ params: { work_id } }) => {
             {works.production}
           </Text>
           {works.profiles ? (
-            <Flex mb="40px">
+            <Flex mb="40px" as={Link} href={`/profile/${works.profiles.id}`}>
               <Image src={iconImageUrl} alt="" width={25} height={25} />
               <Text fontWeight="bold" ml="5px">
                 {works.profiles.name}

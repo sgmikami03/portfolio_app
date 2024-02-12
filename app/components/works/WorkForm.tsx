@@ -18,7 +18,11 @@ import {
   ModalCloseButton,
   useDisclosure,
 } from "@chakra-ui/react";
-import { createWorks, updateThumbnailImage, updateWorks } from "@/lib/supabase/works";
+import {
+  createWorks,
+  updateThumbnailImage,
+  updateWorks,
+} from "@/lib/supabase/works";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Descendant } from "slate";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -47,20 +51,20 @@ const WorkForm: FC<WorkFormProps> = (props) => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      title: props.work.title ?? "",
+      title: props?.work?.title ?? "",
       production:
-        props.work.production ?? new Date().toISOString().split("T")[0],
+        props?.work?.production ?? new Date().toISOString().split("T")[0],
     },
     // 入力値の検証
     resolver: zodResolver(schema),
   });
 
   const [text, setText] = useState<Descendant[] | undefined>(
-    props.work.text.data ?? undefined
+    props.work?.text?.data ?? undefined
   );
   const [fileMessage, setFileMessage] = useState("");
   const [isUseSettingThumbnailImage, setIsUseSettingThumbnailImage] = useState(
-    props.work.thumbnail ? true : false
+    props.work?.thumbnail ? true : false
   );
   const [thumbnailImage, setThumbnailImage] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
