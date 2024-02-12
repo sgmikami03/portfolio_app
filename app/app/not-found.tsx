@@ -1,7 +1,6 @@
-"use client";
 import Layout from "@/components/common/Layout";
 import { Box, Text, Button } from "@chakra-ui/react";
-import Spline from "@splinetool/react-spline";
+import SplineBlock from "@/components/common/Spline";
 import Link from "next/link";
 
 const NotFound = () => {
@@ -15,15 +14,10 @@ const NotFound = () => {
         justifyContent="center"
       >
         <Box pb="60px">
-          <Spline
+          <SplineBlock
             scene="https://prod.spline.design/YC6khECwjJVCY3Rr/scene.splinecode"
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              height: "auto",
-              maxWidth: "100px",
-              margin: "0 auto",
-            }}
+            width={100}
+            height={140}
           />
           <Text textAlign="center" fontWeight="bold">
             ページが見つかりませんでした...
