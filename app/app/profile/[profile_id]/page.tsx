@@ -6,6 +6,7 @@ import ProfileHeader from "@/components/profile/ProfileHeader";
 import ProfileTab from "@/components/profile/ProfileTab";
 import ProfileCareers from "@/components/profile/ProfileCareers";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+import Layout from "@/components/common/Layout";
 
 type PageProps = {
   params: {
@@ -27,11 +28,15 @@ const ProfilePage: NextPage<PageProps> = async ({ params }) => {
   const isEdit = session?.user.id == profile?.id;
 
   return (
-    <>
+    <Layout>
       <ProfileHeader profile={profile} isEdit={isEdit} />
       <ProfileTab profileId={profile_id} tabNum={0} />
-      <ProfileCareers careers={profile?.careers ?? []} isEdit={isEdit} />
-    </>
+      <ProfileCareers
+        careers={profile?.careers ?? []}
+        isEdit={isEdit}
+        profileId={profile_id}
+      />
+    </Layout>
   );
 };
 

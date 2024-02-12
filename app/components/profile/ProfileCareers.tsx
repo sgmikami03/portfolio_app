@@ -1,23 +1,27 @@
-"use client"
+"use client";
 
 import { Careers } from "@/type";
-import { FC } from "react";
+import { FC, useState } from "react";
 import ProfileCareer from "./ProfileCareer";
+import ProfileCareerCreate from "./ProfileCareerCreate";
 
 type ProfileCareersProps = {
+  profileId: string;
   careers: Careers[];
   isEdit: boolean;
 };
 
 const ProfileCareers: FC<ProfileCareersProps> = (props) => {
-  const careers = props.careers
-  const isEdit = props.isEdit
+  const [careers, setCareers] = useState<Careers[]>(props.careers);
+  const isEdit = props.isEdit;
+  const profileId = props.profileId;
 
   return (
     <div className="">
       {careers.map((career, index) => (
-        <ProfileCareer career={career} key={index} isEdit={isEdit} />
+        <ProfileCareer career={career} key={index} isEdit={isEdit} profileId={profileId} setCareers={setCareers} />
       ))}
+      {isEdit ? <ProfileCareerCreate setCareers={setCareers} profileId={profileId} /> : <></>}
     </div>
   );
 };

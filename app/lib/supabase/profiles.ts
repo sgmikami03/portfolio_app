@@ -1,7 +1,9 @@
 import supabase from "@/utils/supabase";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
+import { unstable_noStore as noStore } from "next/cache";
 
 export const getProfileById: any | null = async (id: string) => {
+  noStore();
   const { data: profile } = await supabase
     .from("profiles")
     .select()
@@ -11,10 +13,23 @@ export const getProfileById: any | null = async (id: string) => {
 };
 
 export const getProfileByIdWithCareer: any | null = async (id: string) => {
+  noStore();
   const { data: profile } = await supabase
     .from("profiles")
     .select(
       `id, name, occupation, icon_image, careers(id, name, text, occupation, start, end)`
+    )
+    .eq("id", id)
+    .single();
+  return profile;
+};
+
+export const getProfileByIdWithWork: any | null = async (id: string) => {
+  noStore();
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select(
+      `id, name, occupation, icon_image, works(id, title, text, production, thumbnail)`
     )
     .eq("id", id)
     .single();
