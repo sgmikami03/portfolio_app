@@ -21,6 +21,7 @@ const WorkCards: FC<WorkCardsProps> = (props) => {
       flexWrap="wrap"
       gap="32px"
       position="relative"
+      mb={{ base: "32px", md: "0px" }}
     >
       {works.map((work, index) => (
         <WorkCard

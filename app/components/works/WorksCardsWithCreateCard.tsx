@@ -27,6 +27,7 @@ const WorkCardsWithCreateCard: FC<WorkCardsProps> = (props) => {
       gap="32px"
       position="relative"
       justifyContent="space-between"
+      mb={{ base: "32px", md: "0px" }}
     >
       {works.map((work, index) => (
         <WorkCard
