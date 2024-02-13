@@ -2,11 +2,15 @@
 
 import { Profile } from "@/type";
 import { FC, useState } from "react";
-import Image from "next/image";
-import { EditIcon } from "@chakra-ui/icons";
 import {
+  Image,
+  Button,
+  Box,
+  Heading,
+  Text,
   useDisclosure,
 } from "@chakra-ui/react";
+import { EditIcon } from "@chakra-ui/icons";
 import ProfileEditModal from "./ProfileEditModal";
 
 type ProfileHeaderProps = {
@@ -16,49 +20,90 @@ type ProfileHeaderProps = {
 
 const ProfileHeader: FC<ProfileHeaderProps> = (props) => {
   const [profile, setProfile] = useState<Profile | null>(props.profile);
-  const [iconImageUrl, setIconImageUrl] = useState<string>(profile?.icon_image || "/images/icon/user.png");
-  const [iconImage, setIconImage] = useState<File | null>(null)
+  const [iconImageUrl, setIconImageUrl] = useState<string>(
+    profile?.icon_image || "/images/icon/user.png"
+  );
+  const [iconImage, setIconImage] = useState<File | null>(null);
   const isEdit = props.isEdit;
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <>
-      <ProfileEditModal 
-      profile={profile} 
-      setProfile={setProfile}
-      iconImageUrl={iconImageUrl}
-      setIconImageUrl={setIconImageUrl}
-      iconImage={iconImage}
-      setIconImage={setIconImage}
-      isOpen={isOpen} 
-      onClose={onClose}  
+      <ProfileEditModal
+        profile={profile}
+        setProfile={setProfile}
+        iconImageUrl={iconImageUrl}
+        setIconImageUrl={setIconImageUrl}
+        iconImage={iconImage}
+        setIconImage={setIconImage}
+        isOpen={isOpen}
+        onClose={onClose}
       />
-      <div className="bg-app-bg h-[360px]">
-        <div className="mx-auto pt-[220px] px-[16px] pb-[55px] max-w-[800px] relative">
-          <Image
-            src={iconImageUrl}
-            alt=""
-            width={96}
-            height={96}
-            className="absolute top-[220px] left-[16px] w-[96px] h-[96px] object-cover"
-          />
+      <Box bgColor="gray.50" height="360px">
+        <Box
+          mx="auto"
+          pt="220px"
+          px="16px"
+          pb="55px"
+          maxW="800px"
+          position="relative"
+        >
+          <Box
+            width={{ base: "50px", md: "96px" }}
+            height={{ base: "50px", md: "96px" }}
+            position="absolute"
+            top="230px"
+            left="16px"
+          >
+            <Image
+              src={iconImageUrl}
+              alt=""
+              width={96}
+              height={96}
+              style={{
+                position: "absolute",
+                top: "0px",
+                left: "0px",
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+              }}
+            />
+          </Box>
           {isEdit ? (
-            <button type="button" onClick={onOpen}>
-              <h2 className="pl-[112px] text-4xl font-bold leading-[54px]">
+            <Button type="button" onClick={onOpen} variant="unstyled">
+              <Heading
+                as="h2"
+                fontSize={{ base: "24px", md: "32px" }}
+                fontWeight="bold"
+                lineHeight="54px"
+                paddingLeft={{ base: "70px", md: "112px" }}
+              >
                 {profile?.name}
                 <EditIcon color={"#333"} w={"20px"} ml={"10px"} />
-              </h2>
-            </button>
+              </Heading>
+            </Button>
           ) : (
-            <h2 className="pl-[112px] text-4xl font-bold leading-[54px]">
+            <Heading
+              as="h2"
+              fontSize={{ base: "24px", md: "32px" }}
+              fontWeight="bold"
+              lineHeight="54px"
+              paddingLeft={{ base: "70px", md: "112px" }}
+            >
               {profile?.name}
-            </h2>
+            </Heading>
           )}
-          <p className="pl-[112px] text-xl font-medium leading-[30px]">
+          <Text
+            fontSize="20px"
+            fontWeight="medium"
+            lineHeight="30px"
+            paddingLeft={{ base: "70px", md: "112px" }}
+          >
             {profile?.occupation}
-          </p>
-        </div>
-      </div>
+          </Text>
+        </Box>
+      </Box>
     </>
   );
 };

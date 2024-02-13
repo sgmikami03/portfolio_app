@@ -25,7 +25,7 @@ const Header = async () => {
   const iconImageUrl = profile?.icon_image || "/images/icon/user.png";
 
   return (
-    <Box as="header" bg="#fff">
+    <Box as="header" bg="#fff" position="relative" zIndex="1">
       <Box
         margin="0 auto"
         maxW="800px"

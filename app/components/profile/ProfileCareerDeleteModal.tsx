@@ -1,10 +1,5 @@
 import { useState, Dispatch } from "react";
-import {
-  Button,
-  Heading,
-  Box,
-  Text,
-} from "@chakra-ui/react";
+import { Button, Heading, Box, Text } from "@chakra-ui/react";
 
 import { DeleteCareers } from "@/lib/supabase/careers";
 
@@ -63,10 +58,21 @@ const ProfileCareerDeleteModal = ({
         </Heading>
         <Text marginBottom={30}>{`"${career.name}" を削除しますか？`}</Text>
         <Box>
-          <Button type="button" colorScheme="gray" onClick={onClose} mr={4}>
+          <Button
+            type="button"
+            colorScheme="gray"
+            onClick={onClose}
+            mr={{ base: 4, md: 2 }}
+            px={{ base: "10px", md: "16px" }}
+          >
             削除せずに戻る
           </Button>
-          <Button type="button" onClick={onSubmit} colorScheme="red">
+          <Button
+            type="button"
+            onClick={onSubmit}
+            colorScheme="red"
+            px={{ base: "10px", md: "16px" }}
+          >
             経歴を削除する
           </Button>
         </Box>

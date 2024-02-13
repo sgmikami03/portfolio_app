@@ -29,7 +29,7 @@ const schema = z.object({
 });
 
 type ProfileCareerCreateModalProps = {
-  profileId: string,
+  profileId: string;
   isOpen: boolean;
   onClose: () => void;
   setCareers: Dispatch<React.SetStateAction<Careers[]>>;
@@ -64,7 +64,6 @@ const ProfileCareerCreateModal = ({
   // 送信
   const onSubmit: SubmitHandler<Schema> = async (data) => {
     setLoading(true);
-    console.log(data);
 
     try {
       const { message, careers: newCareers } = await createCareers(
@@ -173,13 +172,20 @@ const ProfileCareerCreateModal = ({
             />
           </FormControl>
           <Box>
-            <Button type="button" colorScheme="gray" onClick={onClose} mr={4}>
+            <Button
+              type="button"
+              colorScheme="gray"
+              onClick={onClose}
+              mr={{ base: 2, md: 4 }}
+              px={{ base: "10px", md: "16px" }}
+            >
               変更せずに戻る
             </Button>
             <Button
               type="submit"
               onClick={handleSubmit(onSubmit)}
               colorScheme="blue"
+              px={{ base: "10px", md: "16px" }}
             >
               内容を変更する
             </Button>

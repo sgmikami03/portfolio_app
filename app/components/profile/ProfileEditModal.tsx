@@ -93,9 +93,13 @@ const ProfileEditModal = ({
     setLoading(true);
 
     try {
-      let newIconImageUrl = null
-      if(iconImage){
-        newIconImageUrl = await updateProfileIcon(profile!.id, iconImage, profile?.icon_image)
+      let newIconImageUrl = null;
+      if (iconImage) {
+        newIconImageUrl = await updateProfileIcon(
+          profile!.id,
+          iconImage,
+          profile?.icon_image
+        );
       }
 
       const { message, profile: newProfile } = await updateProfile(
@@ -196,13 +200,20 @@ const ProfileEditModal = ({
             />
           </FormControl>
           <Box>
-            <Button type="button" colorScheme="gray" onClick={onClose} mr={4}>
+            <Button
+              type="button"
+              colorScheme="gray"
+              onClick={onClose}
+              mr={{ base: 4, md: 2 }}
+              px={{base: "10px", md: "16px"}}
+            >
               変更せずに戻る
             </Button>
             <Button
               type="button"
               onClick={handleSubmit(onSubmit)}
               colorScheme="blue"
+              px={{base: "10px", md: "16px"}}
             >
               内容を変更する
             </Button>

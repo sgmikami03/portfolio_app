@@ -176,13 +176,20 @@ const ProfileCareerEditModal = ({
             />
           </FormControl>
           <Box>
-            <Button type="button" colorScheme="gray" onClick={onClose} mr={4}>
+            <Button
+              type="button"
+              colorScheme="gray"
+              onClick={onClose}
+              mr={{ base: 4, md: 2 }}
+              px={{ base: "10px", md: "16px" }}
+            >
               変更せずに戻る
             </Button>
             <Button
               type="submit"
               onClick={handleSubmit(onSubmit)}
               colorScheme="blue"
+              px={{ base: "10px", md: "16px" }}
             >
               内容を変更する
             </Button>
