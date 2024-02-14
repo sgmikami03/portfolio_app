@@ -78,7 +78,7 @@ const Header = async () => {
               </MenuList>
             </Menu>
           ) : (
-            <Button color="blue" variant="link">
+            <Button colorScheme="blue" variant="link" h="40px">
               <Link href="/login">登録・ログイン</Link>
             </Button>
           )}
