@@ -5,7 +5,15 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Link from "next/link";
-import { Input, Button, useToast } from "@chakra-ui/react";
+import {
+  Input,
+  Button,
+  Box,
+  Divider,
+  Heading,
+  useToast,
+  FormLabel,
+} from "@chakra-ui/react";
 import Contents from "@/components/auth/contents";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -73,12 +81,12 @@ const Signup = () => {
       // エラーチェック
       if (updateError) {
         toast({
-            title: "エラーが発生しました。",
-            description: updateError.message,
-            status: "error",
-            duration: 10000,
-            isClosable: true,
-          });
+          title: "エラーが発生しました。",
+          description: updateError.message,
+          status: "error",
+          duration: 10000,
+          isClosable: true,
+        });
         return;
       }
 
@@ -86,7 +94,8 @@ const Signup = () => {
       reset();
       toast({
         title: "メール認証を行なってください",
-        description: "本登録用のURLを記載したメールを送信しました。メールをご確認の上、メール本文中のURLをクリックして、本登録を行ってください。",
+        description:
+          "本登録用のURLを記載したメールを送信しました。メールをご確認の上、メール本文中のURLをクリックして、本登録を行ってください。",
         status: "success",
         duration: 10000,
         isClosable: true,
@@ -108,58 +117,91 @@ const Signup = () => {
 
   return (
     <Contents>
-      <h1 className="mb-[20px] text-3xl font-bold tracking-wide">Signin</h1>
+      <Heading mb={4} fontSize="3xl" fontWeight="bold" letterSpacing="wide">
+        Signin
+      </Heading>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <p className="mb-[15px] text-left">
-          <label htmlFor="name" className="mb-[5px] font-medium inline-block">
+        <Box mb={5} textAlign="left">
+          <FormLabel
+            htmlFor="name"
+            mb={2}
+            fontWeight="medium"
+            display="inline-block"
+          >
             表示名 (2文字以上)
-          </label>
+          </FormLabel>
           <Input
             id="name"
             type="text"
             placeholder="Name"
             {...register("name", { required: true })}
           />
-        </p>
-        <p className="mb-[15px] text-left">
-          <label htmlFor="email" className="mb-[5px] font-medium inline-block">
+        </Box>
+        <Box mb={5} textAlign="left">
+          <FormLabel
+            htmlFor="email"
+            mb={2}
+            fontWeight="medium"
+            display="inline-block"
+          >
             メールアドレス
-          </label>
+          </FormLabel>
           <Input
             id="email"
             type="mail"
             placeholder="Mail"
             {...register("email", { required: true })}
           />
-        </p>
-        <p className="mb-[15px] text-left">
-          <label
+        </Box>
+        <Box mb={5} textAlign="left">
+          <FormLabel
             htmlFor="password"
-            className="mb-[5px] font-medium inline-block"
+            mb={2}
+            fontWeight="medium"
+            display="inline-block"
           >
             パスワード (6文字以上)
-          </label>
+          </FormLabel>
           <Input
             id="password"
             type="password"
             placeholder="Password"
             {...register("password", { required: true })}
           />
-        </p>
-        <div className="mb-[20px]">
+        </Box>
+        <Box mb={5}>
           <Button type="submit" colorScheme="blue" isDisabled={loading}>
             サインアップ
           </Button>
-        </div>
-        <hr className="mb-[20px] color-[#E2E8F0]" />
-        <div className="flex justify-center gap-[20px]">
-          <Link href="/" className="text-app-main underline font-medium">
-            サインインせずに利用する
-          </Link>
-          <Link href="/login" className="text-app-main underline font-medium">
-            ログインはこちら
-          </Link>
-        </div>
+        </Box>
+        <Divider mb={5} borderColor="#E2E8F0" />
+        <Box
+          display={{ base: "block", md: "flex" }}
+          gap={{ base: "0", md: "20px" }}
+          justifyContent="center"
+        >
+          <Button
+            variant="link"
+            textDecoration="underline"
+            fontWeight="medium"
+            colorScheme="blue"
+            mx={{ base: "auto", md: "inherit" }}
+            mb={{ base: 2, md: "0px" }}
+            display="block"
+          >
+            <Link href="/">ログインせずに利用する</Link>
+          </Button>
+          <Button
+            variant="link"
+            textDecoration="underline"
+            fontWeight="medium"
+            colorScheme="blue"
+            mx={{ base: "auto", md: "inherit" }}
+            display="block"
+          >
+            <Link href="/login">ログインする</Link>
+          </Button>
+        </Box>
       </form>
     </Contents>
   );

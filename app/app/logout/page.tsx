@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import type { Database } from "@/lib/database.types";
 import Contents from "@/components/auth/contents";
 import Link from "next/link";
-import { Button, useToast } from "@chakra-ui/react";
+import { Button, Divider, Box, useToast, Heading } from "@chakra-ui/react";
 
 // サインアップ
 const Logout = () => {
@@ -61,19 +61,25 @@ const Logout = () => {
 
   return (
     <Contents>
-      <h1 className="mb-[20px] text-3xl font-bold tracking-wide">Logout</h1>
+      <Heading mb={4} fontSize="3xl" fontWeight="bold" letterSpacing="wide">
+        Logout
+      </Heading>
       <form onSubmit={onSubmit}>
-        <div className="mb-[20px]">
+        <Box mb={5}>
           <Button type="submit" colorScheme="red" isDisabled={loading}>
             ログアウト
           </Button>
-        </div>
-        <hr className="mb-[20px] color-[#E2E8F0]" />
-        <div className="flex justify-center gap-[20px]">
-          <Link href="/" className="text-app-main underline font-medium">
-            ログアウトせずに利用する
-          </Link>
-        </div>
+        </Box>
+        <Box display="flex" justifyContent="center" gap={5}>
+          <Button
+            textDecoration="underline"
+            fontWeight="medium"
+            colorScheme="blue"
+            variant="link"
+          >
+            <Link href="/">ログアウトせずに利用する</Link>
+          </Button>
+        </Box>
       </form>
     </Contents>
   );
