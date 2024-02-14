@@ -4,6 +4,7 @@ import { Careers } from "@/type";
 import { FC, useState } from "react";
 import ProfileCareer from "./ProfileCareer";
 import ProfileCareerCreate from "./ProfileCareerCreate";
+import { Box } from "@chakra-ui/react";
 
 type ProfileCareersProps = {
   profileId: string;
@@ -17,12 +18,12 @@ const ProfileCareers: FC<ProfileCareersProps> = (props) => {
   const profileId = props.profileId;
 
   return (
-    <div className="">
+    <Box mb="30px">
       {careers.map((career, index) => (
         <ProfileCareer career={career} key={index} isEdit={isEdit} profileId={profileId} setCareers={setCareers} />
       ))}
       {isEdit ? <ProfileCareerCreate setCareers={setCareers} profileId={profileId} /> : <></>}
-    </div>
+    </Box>
   );
 };
 
