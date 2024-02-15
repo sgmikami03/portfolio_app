@@ -33,20 +33,10 @@ const Logout = () => {
           duration: 10000,
           isClosable: true,
         });
+        setLoading(false);
         return;
       }
 
-      router.push("/");
-    } catch (error) {
-      toast({
-        title: "エラーが発生しました。",
-        description: String(error),
-        status: "error",
-        duration: 10000,
-        isClosable: true,
-      });
-      return;
-    } finally {
       toast({
         title: "ログアウト完了",
         description: "ログアウトが完了しました。",
@@ -55,7 +45,18 @@ const Logout = () => {
         isClosable: true,
       });
       setLoading(false);
-      router.refresh();
+      router.push("/");
+
+    } catch (error) {
+      setLoading(false);
+      toast({
+        title: "エラーが発生しました。",
+        description: String(error),
+        status: "error",
+        duration: 10000,
+        isClosable: true,
+      });
+      return;
     }
   };
 

@@ -35,7 +35,9 @@ const ProfileCareerDeleteModal = ({
 
       if (message == "ng") {
         console.log("errorが発生しました。");
+        setLoading(false);
       } else {
+        setLoading(false);
         setCareers(newCareers);
         onClose();
       }
@@ -72,6 +74,7 @@ const ProfileCareerDeleteModal = ({
             onClick={onSubmit}
             colorScheme="red"
             px={{ base: "10px", md: "16px" }}
+            isDisabled={loading}
           >
             経歴を削除する
           </Button>

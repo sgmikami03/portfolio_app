@@ -77,7 +77,9 @@ const ProfileCareerCreateModal = ({
 
       if (message == "ng") {
         console.log("errorが発生しました。");
+        setLoading(false);
       } else {
+        setLoading(false);
         setCareers(newCareers);
         reset();
         onClose();
@@ -182,6 +184,7 @@ const ProfileCareerCreateModal = ({
               変更せずに戻る
             </Button>
             <Button
+              isDisabled={loading}
               type="submit"
               onClick={handleSubmit(onSubmit)}
               colorScheme="blue"

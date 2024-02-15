@@ -111,7 +111,9 @@ const ProfileEditModal = ({
 
       if (message == "ng") {
         console.log("errorが発生しました。");
+        setLoading(false);
       } else {
+        setLoading(false);
         setProfile(newProfile);
         reset();
         setIconImage(null);
@@ -120,6 +122,7 @@ const ProfileEditModal = ({
       }
     } catch (error) {
       console.log(error);
+      setLoading(false);
     }
   };
 
@@ -226,6 +229,7 @@ const ProfileEditModal = ({
               onClick={handleSubmit(onSubmit)}
               colorScheme="blue"
               px={{ base: "10px", md: "16px" }}
+              isDisabled={loading}
             >
               内容を変更する
             </Button>

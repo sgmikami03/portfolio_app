@@ -69,6 +69,7 @@ const Login = () => {
       }
 
       // 入力フォームクリア
+      setLoading(false);
       reset();
       toast({
         title: "ログイン完了",

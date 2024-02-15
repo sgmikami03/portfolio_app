@@ -66,7 +66,6 @@ const ProfileCareerEditModal = ({
   // 送信
   const onSubmit: SubmitHandler<Schema> = async (data) => {
     setLoading(true);
-    console.log(data);
 
     try {
       const { message, careers: newCareers } = await EditCareers(
@@ -81,7 +80,9 @@ const ProfileCareerEditModal = ({
 
       if (message == "ng") {
         console.log("errorが発生しました。");
+        setLoading(false);
       } else {
+        setLoading(false);
         setCareers(newCareers);
         reset();
         onClose();
@@ -190,6 +191,7 @@ const ProfileCareerEditModal = ({
               onClick={handleSubmit(onSubmit)}
               colorScheme="blue"
               px={{ base: "10px", md: "16px" }}
+              isDisabled={loading}
             >
               内容を変更する
             </Button>
