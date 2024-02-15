@@ -138,7 +138,14 @@ const ProfileEditModal = ({
         <form>
           <FormControl mb={6} textAlign="left">
             <FormLabel htmlFor="iconImage" cursor="pointer">
-              <Box mx="auto" w="96px" h="96px" mb={2}>
+              <Box
+                mx="auto"
+                w="96px"
+                h="96px"
+                mb={2}
+                borderRadius="9999px"
+                position="relative"
+              >
                 <Image
                   src={
                     iconImage ? URL.createObjectURL(iconImage) : iconImageUrl
@@ -147,6 +154,11 @@ const ProfileEditModal = ({
                   alt="avatar"
                   width={96}
                   height={96}
+                  style={{
+                    position: "absolute",
+                    width: "100%",
+                    height: "100%",
+                  }}
                 />
               </Box>
               <Input
@@ -205,7 +217,7 @@ const ProfileEditModal = ({
               colorScheme="gray"
               onClick={onClose}
               mr={{ base: 4, md: 2 }}
-              px={{base: "10px", md: "16px"}}
+              px={{ base: "10px", md: "16px" }}
             >
               変更せずに戻る
             </Button>
@@ -213,7 +225,7 @@ const ProfileEditModal = ({
               type="button"
               onClick={handleSubmit(onSubmit)}
               colorScheme="blue"
-              px={{base: "10px", md: "16px"}}
+              px={{ base: "10px", md: "16px" }}
             >
               内容を変更する
             </Button>

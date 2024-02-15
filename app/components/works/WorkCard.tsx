@@ -42,7 +42,27 @@ const WorkCard: FC<WorkCardProps> = (props) => {
           {work.title}
         </Heading>
         <Text display="flex" gap="10px" margin="0 10px 10px 10px">
-          <Image src={iconImageUrl} alt="" width={25} height={25} />
+          <Box
+            width="25px"
+            height="25px"
+            borderRadius="9999px"
+            position="relative"
+            overflow="hidden"
+          >
+            <Image
+              src={iconImageUrl}
+              alt=""
+              width={25}
+              height={25}
+              style={{
+                borderRadius: "10px",
+                position: "absolute",
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+              }}
+            />
+          </Box>
           {profile?.name}
         </Text>
       </Link>

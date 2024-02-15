@@ -54,6 +54,8 @@ const ProfileHeader: FC<ProfileHeaderProps> = (props) => {
             position="absolute"
             top="230px"
             left="16px"
+            borderRadius="9999px"
+            overflow="hidden"
           >
             <Image
               src={iconImageUrl}

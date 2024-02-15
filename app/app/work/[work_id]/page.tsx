@@ -44,13 +44,23 @@ const WorkDetail: NextPage<PageProps> = async ({ params: { work_id } }) => {
             borderRadius="10px"
             boxShadow="0px 1px 3px 0px rgba(0, 0, 0, 0.10)"
             bg="#fff"
+            width={{ base: "100%", md: "400px" }}
+            height={{ base: "240px", md: "300px" }}
+            mx="16px"
+            position="relative"
           >
             <Image
               src={thumbnailImageUrl}
               width={400}
               height={300}
               alt=""
-              style={{ borderRadius: "10px" }}
+              style={{
+                borderRadius: "10px",
+                position: "absolute",
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+              }}
             />
           </Box>
         </Flex>
@@ -59,7 +69,7 @@ const WorkDetail: NextPage<PageProps> = async ({ params: { work_id } }) => {
             <Link href={`/work/${works.id}/edit`}>
               <Text as="h1" fontSize="24px" fontWeight="bold">
                 {works.title}
-                <Edit style={{width: 20, marginLeft: 10}} />
+                <Edit style={{ width: 20, marginLeft: 10 }} />
               </Text>
             </Link>
           ) : (
@@ -72,7 +82,27 @@ const WorkDetail: NextPage<PageProps> = async ({ params: { work_id } }) => {
           </Text>
           {works.profiles ? (
             <Flex mb="40px" as={Link} href={`/profile/${works.profiles.id}`}>
-              <Image src={iconImageUrl} alt="" width={25} height={25} />
+              <Box
+                width="25px"
+                height="25px"
+                borderRadius="9999px"
+                position="relative"
+                overflow="hidden"
+              >
+                <Image
+                  src={iconImageUrl}
+                  alt=""
+                  width={25}
+                  height={25}
+                  style={{
+                    borderRadius: "10px",
+                    position: "absolute",
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                  }}
+                />
+              </Box>
               <Text fontWeight="bold" ml="5px">
                 {works.profiles.name}
                 <Text as="span" display="inline-block" fontSize="12px" ml="5px">

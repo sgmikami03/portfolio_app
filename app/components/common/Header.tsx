@@ -47,6 +47,7 @@ const Header = async () => {
               <MenuButton>
                 <Box
                   borderRadius="9999px"
+                  overflow="hidden"
                   border="2px solid"
                   borderColor="blue.50"
                   w="40px"
@@ -58,12 +59,11 @@ const Header = async () => {
                     height={40}
                     width={40}
                     alt=""
-                    objectFit="cover"
                     style={{
-                      borderRadius: "9999px",
                       position: "absolute",
-                      width: "100% !important",
-                      height: "100% !important",
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
                     }}
                   />
                 </Box>
