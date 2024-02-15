@@ -53,8 +53,8 @@ const ProfileCareerCreateModal = ({
     defaultValues: {
       name: "",
       occupation: "",
-      start: new Date("2000/01/01"),
-      end: new Date("2000/01/01"),
+      start: new Date().toISOString().split("T")[0],
+      end: new Date().toISOString().split("T")[0],
       text: "",
     },
     // 入力値の検証

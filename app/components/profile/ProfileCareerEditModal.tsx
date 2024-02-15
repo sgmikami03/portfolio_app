@@ -55,8 +55,8 @@ const ProfileCareerEditModal = ({
     defaultValues: {
       name: career.name || "",
       occupation: career.occupation || "",
-      start: career.start || new Date("2000/01/01"),
-      end: career.end || new Date("2000/01/01"),
+      start: career.start || new Date().toISOString().split("T")[0],
+      end: career.end || new Date().toISOString().split("T")[0],
       text: career.text || "",
     },
     // 入力値の検証
