@@ -15,6 +15,7 @@ import {
   FormLabel,
 } from "@chakra-ui/react";
 import Contents from "@/components/auth/contents";
+import CustomToast from "@/components/common/CustomToast";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -63,11 +64,15 @@ const Signup = () => {
       // エラーチェック
       if (errorSignup) {
         toast({
-          title: "エラーが発生しました。",
-          description: errorSignup.message,
-          status: "error",
           duration: 10000,
           isClosable: true,
+          render: () => (
+            <CustomToast
+              title="エラーが発生しました"
+              text={errorSignup.message}
+              status="error"
+            />
+          ),
         });
         return;
       }
@@ -81,11 +86,15 @@ const Signup = () => {
       // エラーチェック
       if (updateError) {
         toast({
-          title: "エラーが発生しました。",
-          description: updateError.message,
-          status: "error",
           duration: 10000,
           isClosable: true,
+          render: () => (
+            <CustomToast
+              title="エラーが発生しました"
+              text={updateError.message}
+              status="error"
+            />
+          ),
         });
         return;
       }
@@ -93,20 +102,28 @@ const Signup = () => {
       // 入力フォームクリア
       reset();
       toast({
-        title: "メール認証を行なってください",
-        description: `本登録用のURLを記載したメールを送信しました。メールをご確認の上、メール本文中のURLをクリックして、本登録を行ってください。\n
-        テスト環境のため、メールが送信されずそのまま本登録されている場合があります。`,
-        status: "success",
         duration: 10000,
         isClosable: true,
+        render: () => (
+          <CustomToast
+            title="メール認証を行なってください"
+            text={`本登録用のURLを記載したメールを送信しました。メールをご確認の上、メール本文中のURLをクリックして、本登録を行ってください。\n
+              ※ テスト環境のため、メールが送信されずそのまま本登録されています。`}
+            status="success"
+          />
+        ),
       });
     } catch (error) {
       toast({
-        title: "エラーが発生しました。",
-        description: String(error),
-        status: "error",
         duration: 10000,
         isClosable: true,
+        render: () => (
+          <CustomToast
+            title="エラーが発生しました"
+            text={String(error)}
+            status="error"
+          />
+        ),
       });
       return;
     } finally {

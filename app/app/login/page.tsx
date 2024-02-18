@@ -15,6 +15,7 @@ import {
   Box,
 } from "@chakra-ui/react";
 import Contents from "@/components/auth/contents";
+import CustomToast from "@/components/common/CustomToast";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -51,19 +52,23 @@ const Login = () => {
 
     try {
       // ログイン
-      const { error: errrorLogin } = await supabase.auth.signInWithPassword({
+      const { error: errorLogin } = await supabase.auth.signInWithPassword({
         email: data.email,
         password: data.password,
       });
 
       // エラーチェック
-      if (errrorLogin) {
+      if (errorLogin) {
         toast({
-          title: "エラーが発生しました。",
-          description: errrorLogin.message,
-          status: "error",
           duration: 10000,
           isClosable: true,
+          render: () => (
+            <CustomToast
+              title="エラーが発生しました"
+              text={errorLogin.message}
+              status="error"
+            />
+          ),
         });
         return;
       }
@@ -72,20 +77,28 @@ const Login = () => {
       setLoading(false);
       reset();
       toast({
-        title: "ログイン完了",
-        description: "ログインが完了しました",
-        status: "success",
         duration: 10000,
         isClosable: true,
+        render: () => (
+          <CustomToast
+            title="ログイン完了"
+            text="ログインが完了しました"
+            status="success"
+          />
+        ),
       });
       redirect("/");
     } catch (error) {
       toast({
-        title: "エラーが発生しました。",
-        description: String(error),
-        status: "error",
         duration: 10000,
         isClosable: true,
+        render: () => (
+          <CustomToast
+            title="エラーが発生しました"
+            text={String(error)}
+            status="error"
+          />
+        ),
       });
       return;
     } finally {

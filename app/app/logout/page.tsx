@@ -6,7 +6,8 @@ import { useRouter } from "next/navigation";
 import type { Database } from "@/lib/database.types";
 import Contents from "@/components/auth/contents";
 import Link from "next/link";
-import { Button, Divider, Box, useToast, Heading } from "@chakra-ui/react";
+import { Button, Box, useToast, Heading } from "@chakra-ui/react";
+import CustomToast from "@/components/common/CustomToast";
 
 // サインアップ
 const Logout = () => {
@@ -27,34 +28,46 @@ const Logout = () => {
       // エラーチェック
       if (error) {
         toast({
-          title: "エラーが発生しました。",
-          description: error.message,
-          status: "error",
           duration: 10000,
           isClosable: true,
+          render: () => (
+            <CustomToast
+              title="エラーが発生しました"
+              text={error.message}
+              status="error"
+            />
+          ),
         });
         setLoading(false);
         return;
       }
 
       toast({
-        title: "ログアウト完了",
-        description: "ログアウトが完了しました。",
-        status: "success",
         duration: 10000,
         isClosable: true,
+        render: () => (
+          <CustomToast
+            title="ログアウト完了"
+            text="ログアウトが完了しました。"
+            status="success"
+          />
+        ),
       });
+
       setLoading(false);
       router.push("/");
-
     } catch (error) {
       setLoading(false);
       toast({
-        title: "エラーが発生しました。",
-        description: String(error),
-        status: "error",
         duration: 10000,
         isClosable: true,
+        render: () => (
+          <CustomToast
+            title="エラーが発生しました。"
+            text={String(error)}
+            status="error"
+          />
+        ),
       });
       return;
     }
