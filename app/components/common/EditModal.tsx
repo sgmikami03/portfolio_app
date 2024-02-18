@@ -27,7 +27,13 @@ const EditModal = ({ children, isOpen, onClose }: EditModalProps) => {
       isCentered
     >
       <ModalOverlay />
-      <ModalContent w="100%" maxW="544px" mx="20px" p="30px" textAlign="center">
+      <ModalContent
+        w="100%"
+        maxW="544px"
+        mx="20px"
+        p={{ base: "16px", md: "30px" }}
+        textAlign="center"
+      >
         {children}
       </ModalContent>
     </Modal>

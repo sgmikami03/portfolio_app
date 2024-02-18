@@ -29,6 +29,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import * as z from "zod";
 
+import CustomToast from "../common/CustomToast";
 import TextEditor from "@/components/common/TextEditor/TextEditor";
 import { v4 as uuidv4 } from "uuid";
 type Schema = z.infer<typeof schema>;
@@ -89,11 +90,15 @@ const WorkForm: FC<WorkFormProps> = (props) => {
       // 画像サイズが2MBを超える場合
       if (fileSize > 2) {
         toast({
-          title: "works保存失敗",
-          description: "画像サイズを2MB以下にする必要があります。",
-          status: "error",
           duration: 10000,
           isClosable: true,
+          render: () => (
+            <CustomToast
+              title="works保存失敗"
+              text="画像サイズを2MB以下にする必要があります。"
+              status="error"
+            />
+          ),
         });
         return;
       }
@@ -146,22 +151,29 @@ const WorkForm: FC<WorkFormProps> = (props) => {
 
         if (message == "ng") {
           toast({
-            title: "works保存失敗",
-            description:
-              "正常に保存することができませんでした。再度お試しください。",
-            status: "error",
             duration: 10000,
             isClosable: true,
+            render: () => (
+              <CustomToast
+                title="works保存失敗"
+                text="正常に保存することができませんでした。再度お試しください。"
+                status="error"
+              />
+            ),
           });
           setLoading(false);
           return;
         } else {
           toast({
-            title: "works保存完了",
-            description: "worksを保存できました",
-            status: "success",
             duration: 10000,
             isClosable: true,
+            render: () => (
+              <CustomToast
+                title="works保存完了"
+                text="worksを保存できました。"
+                status="success"
+              />
+            ),
           });
           router.push(`/work/${workId}`);
         }
@@ -249,7 +261,7 @@ const WorkForm: FC<WorkFormProps> = (props) => {
                 fontWeight="bold"
                 {...register("title")}
               />
-              {errors.title?.message && (
+              {typeof errors.title?.message == "string" && (
                 <Text ml="16px" textColor="red">
                   {errors.title?.message}
                 </Text>

@@ -21,6 +21,17 @@ export const getProfileByIdWithCareer: any | null = async (id: string) => {
     )
     .eq("id", id)
     .single();
+
+  if (profile?.careers) {
+    let newCareers = profile?.careers;
+    newCareers = newCareers.sort((a, b) => {
+      const dateA: Date = new Date(a.start);
+      const dateB: Date = new Date(b.start);
+      return dateB.getTime() - dateA.getTime();
+    });
+    profile.careers = newCareers;
+  }
+
   return profile;
 };
 

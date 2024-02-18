@@ -5,8 +5,17 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { redirect, useRouter } from "next/navigation";
 import { useState } from "react";
 import Link from "next/link";
-import { Input, Button, useToast } from "@chakra-ui/react";
+import {
+  useToast,
+  Button,
+  Input,
+  Divider,
+  FormLabel,
+  Heading,
+  Box,
+} from "@chakra-ui/react";
 import Contents from "@/components/auth/contents";
+import CustomToast from "@/components/common/CustomToast";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -43,40 +52,53 @@ const Login = () => {
 
     try {
       // ログイン
-      const { error: errrorLogin } = await supabase.auth.signInWithPassword({
+      const { error: errorLogin } = await supabase.auth.signInWithPassword({
         email: data.email,
         password: data.password,
       });
 
       // エラーチェック
-      if (errrorLogin) {
+      if (errorLogin) {
         toast({
-          title: "エラーが発生しました。",
-          description: errrorLogin.message,
-          status: "error",
           duration: 10000,
           isClosable: true,
+          render: () => (
+            <CustomToast
+              title="エラーが発生しました"
+              text={errorLogin.message}
+              status="error"
+            />
+          ),
         });
         return;
       }
 
       // 入力フォームクリア
+      setLoading(false);
       reset();
       toast({
-        title: "ログイン完了",
-        description: "ログインが完了しました",
-        status: "success",
         duration: 10000,
         isClosable: true,
+        render: () => (
+          <CustomToast
+            title="ログイン完了"
+            text="ログインが完了しました"
+            status="success"
+          />
+        ),
       });
       redirect("/");
     } catch (error) {
       toast({
-        title: "エラーが発生しました。",
-        description: String(error),
-        status: "error",
         duration: 10000,
         isClosable: true,
+        render: () => (
+          <CustomToast
+            title="エラーが発生しました"
+            text={String(error)}
+            status="error"
+          />
+        ),
       });
       return;
     } finally {
@@ -87,47 +109,75 @@ const Login = () => {
 
   return (
     <Contents>
-      <h1 className="mb-[20px] text-3xl font-bold tracking-wide">Login</h1>
+      <Heading mb={4} fontSize="3xl" fontWeight="bold" letterSpacing="wide">
+        Login
+      </Heading>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <p className="mb-[15px] text-left">
-          <label htmlFor="email" className="mb-[5px] font-medium inline-block">
+        <Box mb={5} textAlign="left">
+          <FormLabel
+            htmlFor="email"
+            mb={2}
+            fontWeight="medium"
+            display="inline-block"
+          >
             メールアドレス
-          </label>
+          </FormLabel>
           <Input
             id="email"
             type="mail"
             placeholder="Mail"
             {...register("email", { required: true })}
           />
-        </p>
-        <p className="mb-[15px] text-left">
-          <label
+        </Box>
+        <Box mb={5} textAlign="left">
+          <FormLabel
             htmlFor="password"
-            className="mb-[5px] font-medium inline-block"
+            mb={2}
+            fontWeight="medium"
+            display="inline-block"
           >
             パスワード (6文字以上)
-          </label>
+          </FormLabel>
           <Input
             id="password"
             type="password"
             placeholder="Password"
             {...register("password", { required: true })}
           />
-        </p>
-        <div className="mb-[20px]">
+        </Box>
+        <Box mb={5}>
           <Button type="submit" colorScheme="blue" isDisabled={loading}>
             ログイン
           </Button>
-        </div>
-        <hr className="mb-[20px] color-[#E2E8F0]" />
-        <div className="flex justify-center gap-[20px]">
-          <Link href="/" className="text-app-main underline font-medium">
-            ログインせずに利用する
-          </Link>
-          <Link href="/signup" className="text-app-main underline font-medium">
-            サインアップはこちら
-          </Link>
-        </div>
+        </Box>
+        <Divider mb={5} borderColor="#E2E8F0" />
+        <Box
+          display={{ base: "block", md: "flex" }}
+          gap={{ base: "0", md: "20px" }}
+          justifyContent="center"
+        >
+          <Button
+            variant="link"
+            textDecoration="underline"
+            fontWeight="medium"
+            colorScheme="blue"
+            mx={{ base: "auto", md: "inherit" }}
+            mb={{ base: 2, md: "0px" }}
+            display="block"
+          >
+            <Link href="/">ログインせずに利用する</Link>
+          </Button>
+          <Button
+            variant="link"
+            textDecoration="underline"
+            fontWeight="medium"
+            colorScheme="blue"
+            mx={{ base: "auto", md: "inherit" }}
+            display="block"
+          >
+            <Link href="/signup">サインアップする</Link>
+          </Button>
+        </Box>
       </form>
     </Contents>
   );

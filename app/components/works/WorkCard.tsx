@@ -1,7 +1,7 @@
 import { Work, Profile } from "@/type";
 import { FC, Dispatch } from "react";
 import Image from "next/image";
-import { Text, Box, Card, Heading } from "@chakra-ui/react";
+import { Box, Card, Heading } from "@chakra-ui/react";
 import Link from "next/link";
 
 type WorkCardProps = {
@@ -28,6 +28,7 @@ const WorkCard: FC<WorkCardProps> = (props) => {
         <Box
           h="130px"
           w="100%"
+          as="p"
           position="relative"
           minH={{ base: "200px", md: "inherit" }}
         >
@@ -41,10 +42,37 @@ const WorkCard: FC<WorkCardProps> = (props) => {
         <Heading as="h3" fontSize="16px" fontWeight="bold" margin="10px">
           {work.title}
         </Heading>
-        <Text display="flex" gap="10px" margin="0 10px 10px 10px">
-          <Image src={iconImageUrl} alt="" width={25} height={25} />
+        <Box
+          display="flex"
+          gap="10px"
+          margin="0 10px 10px 10px"
+          as="p"
+        >
+          <Box
+            as="span"
+            display="block"
+            width="25px"
+            height="25px"
+            borderRadius="9999px"
+            position="relative"
+            overflow="hidden"
+          >
+            <Image
+              src={iconImageUrl}
+              alt=""
+              width={25}
+              height={25}
+              style={{
+                borderRadius: "10px",
+                position: "absolute",
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+              }}
+            />
+          </Box>
           {profile?.name}
-        </Text>
+        </Box>
       </Link>
     </Card>
   );

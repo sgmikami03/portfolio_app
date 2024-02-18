@@ -55,8 +55,8 @@ const ProfileCareerEditModal = ({
     defaultValues: {
       name: career.name || "",
       occupation: career.occupation || "",
-      start: career.start || new Date("2000/01/01"),
-      end: career.end || new Date("2000/01/01"),
+      start: career.start || new Date().toISOString().split("T")[0],
+      end: career.end || new Date().toISOString().split("T")[0],
       text: career.text || "",
     },
     // 入力値の検証
@@ -66,7 +66,6 @@ const ProfileCareerEditModal = ({
   // 送信
   const onSubmit: SubmitHandler<Schema> = async (data) => {
     setLoading(true);
-    console.log(data);
 
     try {
       const { message, careers: newCareers } = await EditCareers(
@@ -81,7 +80,9 @@ const ProfileCareerEditModal = ({
 
       if (message == "ng") {
         console.log("errorが発生しました。");
+        setLoading(false);
       } else {
+        setLoading(false);
         setCareers(newCareers);
         reset();
         onClose();
@@ -176,13 +177,22 @@ const ProfileCareerEditModal = ({
             />
           </FormControl>
           <Box>
-            <Button type="button" colorScheme="gray" onClick={onClose} mr={4}>
+            <Button
+              type="button"
+              colorScheme="gray"
+              onClick={onClose}
+              mr={{ base: 4, md: 2 }}
+              px={{ base: "10px", md: "16px" }}
+            >
               変更せずに戻る
             </Button>
             <Button
               type="submit"
+              // @ts-ignore
               onClick={handleSubmit(onSubmit)}
               colorScheme="blue"
+              px={{ base: "10px", md: "16px" }}
+              isDisabled={loading}
             >
               内容を変更する
             </Button>

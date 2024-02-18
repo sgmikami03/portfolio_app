@@ -1,18 +1,18 @@
 import { Careers } from "@/type";
 import { FC, Dispatch } from "react";
-import Image from "next/image";
-import careerImage from "@/public/images/icon/carrier.png";
-import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
 import {
+  Image,
   Button,
-  useDisclosure,
   Popover,
   PopoverTrigger,
   PopoverContent,
   PopoverBody,
   PopoverArrow,
   Text,
+  Box,
+  useDisclosure,
 } from "@chakra-ui/react";
+import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
 import ProfileCareerDeleteModal from "./ProfileCareerDeleteModal";
 import ProfileCareerEditModal from "./ProfileCareerEditModal";
 
@@ -28,6 +28,8 @@ const ProfileCareer: FC<ProfileCareerProps> = (props) => {
   const isEdit = props.isEdit;
   const profileId = props.profileId;
   const setCareers = props.setCareers;
+
+  const careerImage = "/images/icon/carrier.png";
 
   const {
     isOpen: isOpenEditModal,
@@ -61,69 +63,109 @@ const ProfileCareer: FC<ProfileCareerProps> = (props) => {
         career={career}
         setCareers={setCareers}
       />
-      <div
-        className="
-    mx-auto mb-[40px] px-[16px] max-w-[800px] flex gap-[16px] relative
-    before:inline-block before:absolute before:w-[3px] before:h-[calc(100%+40px)] before:top-0 before:left-[63px] before:bg-app-bg-g before:z-0 
-    last:before:opacity-0
-    "
+      <Box
+        mx="auto"
+        mb="40px"
+        px="16px"
+        maxW="800px"
+        display="flex"
+        gap="16px"
+        position="relative"
+        _before={{
+          content: '""',
+          display: "inline-block",
+          position: "absolute",
+          width: "3px",
+          height: "calc(100% + 40px)",
+          top: 0,
+          left: {base: "40px", md: "49px"},
+          backgroundColor: "gray.50",
+          zIndex: 0,
+        }}
+        _last={{
+          _before: {
+            opacity: "0",
+          },
+        }}
       >
-        <div className="w-[96px] relative z-1">
-          <Image className="mx-auto" src={careerImage} width={70} alt="" />
-        </div>
-        <div>
+        <Box
+          w={{base: "50px", md: "70px" }}
+          mr={{base: "10px", md: "26px" }}
+          position="relative"
+          zIndex={1}
+        >
+          <Image mx="auto" src={careerImage} width={70} alt="" style={{
+            position: "absolute",
+            top: "0px",
+            left: "0px",
+            width: "100%",
+          }} />
+        </Box>
+        <Box w={{base: "calc(100% - 50px - 10px)", md: "calc(100% - 70px - 26px)" }}>
           {isEdit ? (
             <Popover>
               <PopoverTrigger>
-                <button>
-                  <h3 className="mb-[5px] text-xl font-bold leading-[30px]">
+                <Button variant="unstyled">
+                  <Box
+                    mb="5px"
+                    fontSize={{base: "16px", md: "20px"}}
+                    fontWeight="bold"
+                    lineHeight="30px"
+                    display="flex"
+                    alignItems="center"
+                  >
                     {career.name}
-                    <span className="inline-block ml-2 text-base text-app-main">
-                      {career.start ? getDateFromSupabaseDate(career.start).getFullYear() : ""}-
-                      {career.end ? getDateFromSupabaseDate(career.end).getFullYear() : ""}
-                    </span>
-                    <EditIcon color={"#333"} w={"15px"} ml={"7px"} />
-                  </h3>
-                </button>
+                    <Text ml="2" fontSize="base" color="blue.500">
+                      {career.start
+                        ? getDateFromSupabaseDate(career.start).getFullYear()
+                        : ""}
+                      -
+                      {career.end
+                        ? getDateFromSupabaseDate(career.end).getFullYear()
+                        : ""}
+                    </Text>
+                    <EditIcon color="#333" w="15px" ml="7px" />
+                  </Box>
+                </Button>
               </PopoverTrigger>
-              <PopoverContent width={"auto"}>
+              <PopoverContent width="auto">
                 <PopoverArrow />
                 <PopoverBody>
-                  <Button onClick={onOpenEditModal} display={"block"} mb="5px">
-                    <EditIcon color={"#333"} w={"15px"} mr={"7px"} mb={"3px"} />
+                  <Button onClick={onOpenEditModal} display="block" mb="5px">
+                    <EditIcon color="#333" w="15px" mr="7px" mb="3px" />
                     編集する
                   </Button>
-                  <Button onClick={onOpenDeleteModal} display={"block"}>
-                    <DeleteIcon
-                      color={"#333"}
-                      w={"15px"}
-                      mr={"7px"}
-                      mb={"4px"}
-                    />
+                  <Button onClick={onOpenDeleteModal} display="block">
+                    <DeleteIcon color="#333" w="15px" mr="7px" mb="4px" />
                     削除する
                   </Button>
                 </PopoverBody>
               </PopoverContent>
             </Popover>
           ) : (
-            <h3 className="mb-[5px] text-xl font-bold leading-[30px]">
+            <Text fontSize="xl" fontWeight="bold" lineHeight="30px" mb="5px">
               {career.name}
-              <span className="inline-block ml-2 text-base text-app-main">
-                {career.start ? getDateFromSupabaseDate(career.start).getFullYear() : ""}-
-                {career.end ? getDateFromSupabaseDate(career.end).getFullYear() : ""}
-              </span>
-            </h3>
+              <Text ml="2" fontSize="base" color="blue.500">
+                {career.start
+                  ? getDateFromSupabaseDate(career.start).getFullYear()
+                  : ""}
+                -
+                {career.end
+                  ? getDateFromSupabaseDate(career.end).getFullYear()
+                  : ""}
+              </Text>
+            </Text>
           )}
-          <h4 className="font-medium">{career.occupation}</h4>
-          {career.text ? (
+          <Text fontSize="medium" fontWeight="medium">
+            {career.occupation}
+          </Text>
+          {career.text && (
             <Text fontWeight="medium" mt="20px" whiteSpace="pre-wrap">
               {career.text}
             </Text>
-          ) : (
-            <></>
           )}
-        </div>
-      </div>
+        </Box>
+      </Box>
     </>
   );
 };

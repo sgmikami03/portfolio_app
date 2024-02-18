@@ -14,11 +14,13 @@ const NotFound = () => {
         justifyContent="center"
       >
         <Box pb="60px">
-          <SplineBlock
-            scene="https://prod.spline.design/YC6khECwjJVCY3Rr/scene.splinecode"
-            width={100}
-            height={140}
-          />
+          <Box mx="auto" width="100px">
+            <SplineBlock
+              scene="https://prod.spline.design/YC6khECwjJVCY3Rr/scene.splinecode"
+              width={100}
+              height={140}
+            />
+          </Box>
           <Text textAlign="center" fontWeight="bold">
             ページが見つかりませんでした...
             <br />

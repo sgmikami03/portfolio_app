@@ -3,39 +3,87 @@ import { FC, Dispatch } from "react";
 import Image from "next/image";
 import careerImage from "@/public/images/icon/carrier.png";
 import { AddIcon } from "@chakra-ui/icons";
-import { useDisclosure } from "@chakra-ui/react";
+import { useDisclosure, Box, Heading } from "@chakra-ui/react";
 import ProfileCareerCreateModal from "./ProfileCareerCreateModal";
 
 type ProfileCareerCreateProps = {
   setCareers: Dispatch<React.SetStateAction<Careers[]>>;
   profileId: string;
-}
+};
 
-const ProfileCareerCreate: FC<ProfileCareerCreateProps> = ({setCareers, profileId}) => {
+const ProfileCareerCreate: FC<ProfileCareerCreateProps> = ({
+  setCareers,
+  profileId,
+}) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  
+
   return (
     <>
-      <ProfileCareerCreateModal isOpen={isOpen} onClose={onClose} setCareers={setCareers} profileId={profileId} />
-      <div
-        className="
-    mx-auto mb-[40px] px-[16px] max-w-[800px] flex gap-[16px] relative
-    before:inline-block before:absolute before:w-[3px] before:h-[calc(100%+40px)] before:top-0 before:left-[63px] before:bg-app-bg-g before:z-0 
-    last:before:opacity-0
-    "
+      <ProfileCareerCreateModal
+        isOpen={isOpen}
+        onClose={onClose}
+        setCareers={setCareers}
+        profileId={profileId}
+      />
+      <Box
+        mx="auto"
+        mb="40px"
+        px="16px"
+        maxW="800px"
+        display="flex"
+        gap="16px"
+        position="relative"
+        _before={{
+          content: '""',
+          display: "inline-block",
+          position: "absolute",
+          width: "3px",
+          height: "calc(100% + 40px)",
+          top: 0,
+          left: { base: "40px", md: "49px" },
+          backgroundColor: "gray.50",
+          zIndex: 0,
+        }}
+        _last={{
+          _before: {
+            opacity: "0",
+          },
+        }}
       >
-        <div className="w-[96px] relative z-1">
-          <Image className="mx-auto" src={careerImage} width={70} alt="" />
-        </div>
-        <div>
+        <Box
+          w={{ base: "50px", md: "70px" }}
+          mr={{ base: "10px", md: "26px" }}
+          position="relative"
+          zIndex={1}
+        >
+          <Image
+            src={careerImage}
+            width={70}
+            alt=""
+            style={{
+              position: "absolute",
+              top: "0px",
+              left: "0px",
+              width: "100%",
+            }}
+          />
+        </Box>
+        <Box>
           <button onClick={onOpen}>
-            <h3 className="mb-[5px] text-xl font-bold leading-[30px]">
+            <Box
+              mb="5px"
+              fontSize={{ base: "16px", md: "20px" }}
+              fontWeight="bold"
+              lineHeight="30px"
+              display="flex"
+              alignItems="center"
+            >
               新しく経歴を入力する
               <AddIcon color={"#333"} w={"15px"} ml={"7px"} mb={"4px"} />
-            </h3>
+            </Box>
           </button>
-        </div>
-      </div>
+        </Box>
+      </Box>
     </>
   );
 };

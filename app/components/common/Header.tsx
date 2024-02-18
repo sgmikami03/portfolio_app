@@ -25,7 +25,7 @@ const Header = async () => {
   const iconImageUrl = profile?.icon_image || "/images/icon/user.png";
 
   return (
-    <Box as="header" bg="#fff">
+    <Box as="header" bg="#fff" position="relative" zIndex="1">
       <Box
         margin="0 auto"
         maxW="800px"
@@ -47,6 +47,7 @@ const Header = async () => {
               <MenuButton>
                 <Box
                   borderRadius="9999px"
+                  overflow="hidden"
                   border="2px solid"
                   borderColor="blue.50"
                   w="40px"
@@ -58,12 +59,11 @@ const Header = async () => {
                     height={40}
                     width={40}
                     alt=""
-                    objectFit="cover"
                     style={{
-                      borderRadius: "9999px",
                       position: "absolute",
-                      width: "100% !important",
-                      height: "100% !important",
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
                     }}
                   />
                 </Box>
@@ -78,7 +78,7 @@ const Header = async () => {
               </MenuList>
             </Menu>
           ) : (
-            <Button color="blue" variant="link">
+            <Button colorScheme="blue" variant="link" h="40px">
               <Link href="/login">登録・ログイン</Link>
             </Button>
           )}

@@ -6,7 +6,8 @@ import { useRouter } from "next/navigation";
 import type { Database } from "@/lib/database.types";
 import Contents from "@/components/auth/contents";
 import Link from "next/link";
-import { Button, useToast } from "@chakra-ui/react";
+import { Button, Box, useToast, Heading } from "@chakra-ui/react";
+import CustomToast from "@/components/common/CustomToast";
 
 // サインアップ
 const Logout = () => {
@@ -27,53 +28,72 @@ const Logout = () => {
       // エラーチェック
       if (error) {
         toast({
-          title: "エラーが発生しました。",
-          description: error.message,
-          status: "error",
           duration: 10000,
           isClosable: true,
+          render: () => (
+            <CustomToast
+              title="エラーが発生しました"
+              text={error.message}
+              status="error"
+            />
+          ),
         });
+        setLoading(false);
         return;
       }
 
+      toast({
+        duration: 10000,
+        isClosable: true,
+        render: () => (
+          <CustomToast
+            title="ログアウト完了"
+            text="ログアウトが完了しました。"
+            status="success"
+          />
+        ),
+      });
+
+      setLoading(false);
       router.push("/");
     } catch (error) {
+      setLoading(false);
       toast({
-        title: "エラーが発生しました。",
-        description: String(error),
-        status: "error",
         duration: 10000,
         isClosable: true,
+        render: () => (
+          <CustomToast
+            title="エラーが発生しました。"
+            text={String(error)}
+            status="error"
+          />
+        ),
       });
       return;
-    } finally {
-      toast({
-        title: "ログアウト完了",
-        description: "ログアウトが完了しました。",
-        status: "success",
-        duration: 10000,
-        isClosable: true,
-      });
-      setLoading(false);
-      router.refresh();
     }
   };
 
   return (
     <Contents>
-      <h1 className="mb-[20px] text-3xl font-bold tracking-wide">Logout</h1>
+      <Heading mb={4} fontSize="3xl" fontWeight="bold" letterSpacing="wide">
+        Logout
+      </Heading>
       <form onSubmit={onSubmit}>
-        <div className="mb-[20px]">
+        <Box mb={5}>
           <Button type="submit" colorScheme="red" isDisabled={loading}>
             ログアウト
           </Button>
-        </div>
-        <hr className="mb-[20px] color-[#E2E8F0]" />
-        <div className="flex justify-center gap-[20px]">
-          <Link href="/" className="text-app-main underline font-medium">
-            ログアウトせずに利用する
-          </Link>
-        </div>
+        </Box>
+        <Box display="flex" justifyContent="center" gap={5}>
+          <Button
+            textDecoration="underline"
+            fontWeight="medium"
+            colorScheme="blue"
+            variant="link"
+          >
+            <Link href="/">ログアウトせずに利用する</Link>
+          </Button>
+        </Box>
       </form>
     </Contents>
   );

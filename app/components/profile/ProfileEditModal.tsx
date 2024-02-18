@@ -93,9 +93,13 @@ const ProfileEditModal = ({
     setLoading(true);
 
     try {
-      let newIconImageUrl = null
-      if(iconImage){
-        newIconImageUrl = await updateProfileIcon(profile!.id, iconImage, profile?.icon_image)
+      let newIconImageUrl = null;
+      if (iconImage) {
+        newIconImageUrl = await updateProfileIcon(
+          profile!.id,
+          iconImage,
+          profile?.icon_image
+        );
       }
 
       const { message, profile: newProfile } = await updateProfile(
@@ -107,7 +111,9 @@ const ProfileEditModal = ({
 
       if (message == "ng") {
         console.log("errorが発生しました。");
+        setLoading(false);
       } else {
+        setLoading(false);
         setProfile(newProfile);
         reset();
         setIconImage(null);
@@ -116,6 +122,7 @@ const ProfileEditModal = ({
       }
     } catch (error) {
       console.log(error);
+      setLoading(false);
     }
   };
 
@@ -134,7 +141,14 @@ const ProfileEditModal = ({
         <form>
           <FormControl mb={6} textAlign="left">
             <FormLabel htmlFor="iconImage" cursor="pointer">
-              <Box mx="auto" w="96px" h="96px" mb={2}>
+              <Box
+                mx="auto"
+                w="96px"
+                h="96px"
+                mb={2}
+                borderRadius="9999px"
+                position="relative"
+              >
                 <Image
                   src={
                     iconImage ? URL.createObjectURL(iconImage) : iconImageUrl
@@ -143,6 +157,11 @@ const ProfileEditModal = ({
                   alt="avatar"
                   width={96}
                   height={96}
+                  style={{
+                    position: "absolute",
+                    width: "100%",
+                    height: "100%",
+                  }}
                 />
               </Box>
               <Input
@@ -196,13 +215,21 @@ const ProfileEditModal = ({
             />
           </FormControl>
           <Box>
-            <Button type="button" colorScheme="gray" onClick={onClose} mr={4}>
+            <Button
+              type="button"
+              colorScheme="gray"
+              onClick={onClose}
+              mr={{ base: 4, md: 2 }}
+              px={{ base: "10px", md: "16px" }}
+            >
               変更せずに戻る
             </Button>
             <Button
               type="button"
               onClick={handleSubmit(onSubmit)}
               colorScheme="blue"
+              px={{ base: "10px", md: "16px" }}
+              isDisabled={loading}
             >
               内容を変更する
             </Button>

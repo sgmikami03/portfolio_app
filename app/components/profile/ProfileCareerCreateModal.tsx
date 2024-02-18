@@ -29,7 +29,7 @@ const schema = z.object({
 });
 
 type ProfileCareerCreateModalProps = {
-  profileId: string,
+  profileId: string;
   isOpen: boolean;
   onClose: () => void;
   setCareers: Dispatch<React.SetStateAction<Careers[]>>;
@@ -53,8 +53,8 @@ const ProfileCareerCreateModal = ({
     defaultValues: {
       name: "",
       occupation: "",
-      start: new Date("2000/01/01"),
-      end: new Date("2000/01/01"),
+      start: new Date().toISOString().split("T")[0],
+      end: new Date().toISOString().split("T")[0],
       text: "",
     },
     // 入力値の検証
@@ -64,7 +64,6 @@ const ProfileCareerCreateModal = ({
   // 送信
   const onSubmit: SubmitHandler<Schema> = async (data) => {
     setLoading(true);
-    console.log(data);
 
     try {
       const { message, careers: newCareers } = await createCareers(
@@ -78,7 +77,9 @@ const ProfileCareerCreateModal = ({
 
       if (message == "ng") {
         console.log("errorが発生しました。");
+        setLoading(false);
       } else {
+        setLoading(false);
         setCareers(newCareers);
         reset();
         onClose();
@@ -173,13 +174,22 @@ const ProfileCareerCreateModal = ({
             />
           </FormControl>
           <Box>
-            <Button type="button" colorScheme="gray" onClick={onClose} mr={4}>
+            <Button
+              type="button"
+              colorScheme="gray"
+              onClick={onClose}
+              mr={{ base: 2, md: 4 }}
+              px={{ base: "10px", md: "16px" }}
+            >
               変更せずに戻る
             </Button>
             <Button
+              isDisabled={loading}
               type="submit"
+              // @ts-ignore
               onClick={handleSubmit(onSubmit)}
               colorScheme="blue"
+              px={{ base: "10px", md: "16px" }}
             >
               内容を変更する
             </Button>
