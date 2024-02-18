@@ -188,6 +188,7 @@ const ProfileCareerEditModal = ({
             </Button>
             <Button
               type="submit"
+              // @ts-ignore
               onClick={handleSubmit(onSubmit)}
               colorScheme="blue"
               px={{ base: "10px", md: "16px" }}

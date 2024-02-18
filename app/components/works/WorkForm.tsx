@@ -249,7 +249,7 @@ const WorkForm: FC<WorkFormProps> = (props) => {
                 fontWeight="bold"
                 {...register("title")}
               />
-              {errors.title?.message && (
+              {typeof errors.title?.message == "string" && (
                 <Text ml="16px" textColor="red">
                   {errors.title?.message}
                 </Text>
