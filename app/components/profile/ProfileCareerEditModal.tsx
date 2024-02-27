@@ -18,6 +18,7 @@ type Schema = z.infer<typeof schema>;
 
 import EditModal from "../common/EditModal";
 import { Careers } from "@/type";
+import { useRouter } from "next/navigation";
 
 // 入力データの検証ルールを定義
 const schema = z.object({
@@ -44,6 +45,7 @@ const ProfileCareerEditModal = ({
   setCareers,
 }: ProfileCareerEditModalProps) => {
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const {
     register,
@@ -82,6 +84,7 @@ const ProfileCareerEditModal = ({
         console.log("errorが発生しました。");
         setLoading(false);
       } else {
+        router.refresh();
         setLoading(false);
         setCareers(newCareers);
         reset();

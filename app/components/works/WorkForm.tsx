@@ -176,6 +176,7 @@ const WorkForm: FC<WorkFormProps> = (props) => {
             ),
           });
           router.push(`/work/${workId}`);
+          router.refresh();
         }
       } catch (error) {
         console.error("Zodバリデーションエラー", error);
