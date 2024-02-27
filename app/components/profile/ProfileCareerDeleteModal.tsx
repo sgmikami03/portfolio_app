@@ -5,6 +5,7 @@ import { DeleteCareers } from "@/lib/supabase/careers";
 
 import EditModal from "../common/EditModal";
 import { Careers } from "@/type";
+import { useRouter } from "next/navigation";
 
 type ProfileCareerDeleteModalProps = {
   career: Careers;
@@ -22,6 +23,7 @@ const ProfileCareerDeleteModal = ({
   setCareers,
 }: ProfileCareerDeleteModalProps) => {
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   // 送信
   const onSubmit = async () => {
@@ -37,6 +39,7 @@ const ProfileCareerDeleteModal = ({
         console.log("errorが発生しました。");
         setLoading(false);
       } else {
+        router.refresh();
         setLoading(false);
         setCareers(newCareers);
         onClose();

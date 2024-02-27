@@ -16,6 +16,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { updateProfile, updateProfileIcon } from "@/lib/supabase/profiles";
+import { useRouter } from "next/navigation";
 type Schema = z.infer<typeof schema>;
 
 // 入力データの検証ルールを定義
@@ -48,6 +49,7 @@ const ProfileEditModal = ({
 }: ProfileEditModalProps) => {
   const [loading, setLoading] = useState(false);
   const [fileMessage, setFileMessage] = useState("アイコンを変更する");
+  const router = useRouter();
 
   const {
     register,
@@ -113,6 +115,7 @@ const ProfileEditModal = ({
         console.log("errorが発生しました。");
         setLoading(false);
       } else {
+        router.refresh();
         setLoading(false);
         setProfile(newProfile);
         reset();
